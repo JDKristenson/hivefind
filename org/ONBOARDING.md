@@ -1,6 +1,6 @@
 # Agent Onboarding Checklist
 
-Use this checklist when introducing a new agent to the AI Crew ecosystem.
+Use this checklist when introducing a new agent to the Hivefind ecosystem.
 
 ---
 

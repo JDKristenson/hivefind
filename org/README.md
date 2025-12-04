@@ -1,6 +1,6 @@
 # Organizational Infrastructure
 
-HR and IT infrastructure for the AI Crew ecosystem.
+HR and IT infrastructure for the Hivefind ecosystem.
 
 ---
 

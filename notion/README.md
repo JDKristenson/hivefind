@@ -7,7 +7,7 @@ CSV files ready for direct import into Notion to create working databases.
 ## How to Import
 
 1. Open Notion
-2. Create a new page (this will be your AI Crew Hub)
+2. Create a new page (this will be your Hivefind Hub)
 3. For each CSV file:
    - Type `/database` and select "Table - Inline"
    - Click the `...` menu on the table
@@ -148,4 +148,4 @@ The CSV files include sample data to demonstrate structure. After import:
 
 ---
 
-*Import these files to have a working AI Crew command center from day one.*
+*Import these files to have a working Hivefind command center from day one.*

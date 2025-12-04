@@ -1,12 +1,12 @@
 # System Architecture
 
-Technical architecture for the AI Crew ecosystem, defining the three-layer model and how components interact.
+Technical architecture for the Hivefind ecosystem, defining the three-layer model and how components interact.
 
 ---
 
 ## Three-Layer Architecture
 
-The AI Crew operates on a three-layer model with clear boundaries:
+Hivefind operates on a three-layer model with clear boundaries:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐

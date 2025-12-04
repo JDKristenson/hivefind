@@ -1,6 +1,6 @@
 # Client Demo Guide
 
-How to present the AI Crew system to potential clients, partners, or audiences.
+How to present the Hivefind system to potential clients, partners, or audiences.
 
 ---
 

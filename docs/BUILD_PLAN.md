@@ -1,4 +1,4 @@
-# AI Crew Build Plan
+# Hivefind Build Plan
 
 ## Overview
 This document sequences the implementation of JD's AI agent ecosystem. Build order is determined by dependencies, integration complexity, and value delivered.
@@ -27,7 +27,7 @@ This document sequences the implementation of JD's AI agent ecosystem. Build ord
 
 ### Tasks
 - [ ] Set up n8n instance (self-hosted or cloud)
-- [ ] Configure Notion workspace with AI Crew HQ structure
+- [ ] Configure Notion workspace with Hivefind HQ structure
 - [ ] Establish API connections:
   - [ ] Google Workspace (Gmail, Calendar)
   - [ ] Shopify (Puzzlehouse)

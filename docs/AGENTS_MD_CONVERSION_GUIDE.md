@@ -1,8 +1,8 @@
-# AGENTS.md Conversion Guide for AI Crew
+# AGENTS.md Conversion Guide for Hivefind
 
 ## Overview
 
-This guide provides instructions for converting AI Crew agent job descriptions (like `AGENT_SPEC_Ada.md`) into the `AGENTS.md` format—a simple, open standard for guiding AI coding agents adopted by OpenAI Codex, Google Jules, Cursor, and other major AI development tools.
+This guide provides instructions for converting Hivefind agent job descriptions (like `AGENT_SPEC_Ada.md`) into the `AGENTS.md` format—a simple, open standard for guiding AI coding agents adopted by OpenAI Codex, Google Jules, Cursor, and other major AI development tools.
 
 ### Why Convert?
 
@@ -746,10 +746,10 @@ Use:
 
 ---
 
-## Directory Structure for AI Crew
+## Directory Structure for Hivefind
 
 ```
-ai-crew/
+hivefind/
 ├── AGENTS.md                    # Global crew conventions
 ├── agents/
 │   ├── AGENTS.md               # Shared agent patterns
@@ -805,4 +805,4 @@ Use this checklist when converting any agent spec:
 
 *Version: 1.0*  
 *Created: December 2024*  
-*For: AI Crew Project*
+*For: Hivefind Project*

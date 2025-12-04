@@ -1,6 +1,6 @@
 # Agent Offboarding Checklist
 
-Use this checklist when removing an agent from the AI Crew ecosystem.
+Use this checklist when removing an agent from the Hivefind ecosystem.
 
 ---
 

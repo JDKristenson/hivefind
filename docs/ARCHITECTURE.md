@@ -1,4 +1,4 @@
-# AI Crew Architecture
+# Hivefind Architecture
 
 ## Overview
 This document defines the organizational structure, coordination layers, and design principles for JD's AI agent ecosystem—a coordinated team handling personal operations, Haze Gray Consulting, and Puzzlehouse.com.
@@ -248,7 +248,7 @@ Friday    All agents submit weekly metrics to Notion
 ## Notion Structure
 
 ```
-📁 AI Crew HQ
+📁 Hivefind HQ
 ├── 🎯 Command Dashboard
 │   ├── Today's Briefing
 │   ├── Active Escalations

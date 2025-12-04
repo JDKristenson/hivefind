@@ -1,4 +1,4 @@
-# AI Crew Org Charts
+# Hivefind Org Charts
 
 Visual representations of the agent hierarchy and relationships.
 

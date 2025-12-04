@@ -1,6 +1,6 @@
 # How This Was Built
 
-This folder documents the process of designing and building the AI Crew; an 18-agent ecosystem handling personal operations, consulting business, and e-commerce.
+This folder documents the process of designing and building Hivefind; an 18-agent ecosystem handling personal operations, consulting business, and e-commerce.
 
 **Why document this?**
 - Demo material for potential clients

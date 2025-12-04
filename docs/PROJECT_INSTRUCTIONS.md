@@ -1,4 +1,4 @@
-# AI Crew Command - Project Instructions
+# Hivefind - Project Instructions
 
 ## Project Purpose
 This is the strategic planning and architecture space for building JD's AI Agent ecosystem—a coordinated team of AI agents handling personal and business operations for JD personally, Haze Gray Consulting, and Puzzlehouse.com.

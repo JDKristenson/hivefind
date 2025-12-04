@@ -1,4 +1,4 @@
-# AI Crew Conventions
+# Hivefind Conventions
 
 Standards and guidelines for consistent agent development.
 
@@ -61,7 +61,7 @@ Examples:
 - Use consistent property names across databases:
   - `Status`: Not Started / In Progress / Active / Paused / Deprecated
   - `Last Updated`: Date property, auto-updated
-  - `Owner`: Always "AI Crew" or specific agent name
+  - `Owner`: Always "Hivefind" or specific agent name
   - `Domain`: Personal / HGC / Puzzlehouse / Infrastructure
 
 ### API Handling
@@ -190,7 +190,7 @@ Example:
 | Briefing | Compiled summary delivered via video or audio |
 | Trigger | The event that initiates a workflow |
 | Guardrail | A rule that prevents the agent from taking certain actions |
-| Principal | JD; the human in command of the AI Crew |
+| Principal | JD; the human in command of the Hivefind |
 
 ---
 

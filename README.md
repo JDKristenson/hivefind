@@ -1,4 +1,4 @@
-# AI Crew
+# Hivefind
 
 A coordinated ecosystem of 18 AI agents handling personal operations, consulting business, and e-commerce through specialized roles and clear accountability chains.
 
@@ -56,7 +56,7 @@ Operating the e-commerce puzzle store.
 ## Repository Structure
 
 ```
-ai-crew/
+hivefind/
 ├── README.md                 # You are here
 ├── docs/                     # Architecture and project documentation
 │   ├── ARCHITECTURE.md       # Conceptual design, org chart, information flows
@@ -139,7 +139,7 @@ This makes agents memorable and their roles intuitive.
 
 ## System Architecture
 
-The AI Crew operates on a three-layer model:
+Hivefind operates on a three-layer model:
 
 | Layer | Purpose | Tool |
 |-------|---------|------|
