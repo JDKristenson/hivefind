@@ -1,0 +1,17 @@
+Exception Type,Description,Default Severity,Default Escalation,Applies To Agents
+API Failure,External service connection failed,High,Xavier,"Ada, Franklin, Warren, Evelyn, Marco, Eleanor, Galen"
+Decision Escalation,Decision exceeds agent authority,Medium,Per decision matrix,All agents
+Customer Complaint,Customer issue requiring review,Medium,Franklin,Clara
+Refund Request,Refund outside standard policy,Medium,Franklin,Clara
+Inventory Alert,Stock level critical,High,Franklin,"Ada, Franklin"
+Financial Threshold,Expense or transaction over limit,Medium,Warren or JD,"Warren, Hetty, Marco"
+Cross-Agent Conflict,Two agents claiming same task,Low,Xavier,All agents
+Values Flag,Ethical or values concern,Medium,Aurelius,All agents
+Health Alert,Biometric anomaly detected,High,JD,Galen
+Calendar Conflict,Scheduling conflict unresolvable,Medium,JD,Evelyn
+Content Rejection,Content flagged or rejected by platform,Medium,Clare,"Ada, Dale"
+Lead Quality Dispute,Disagreement on lead qualification,Low,Xavier,"Helena, Cicero"
+Client Delivery Issue,Engagement commitment at risk,High,Xavier,Hamilton
+Travel Disruption,Booking failure or major change,High,Xavier,Marco
+System Downtime,Agent offline or unresponsive,Critical,Xavier,All agents
+Performance Degradation,Agent below SLA thresholds,Medium,Xavier,All agents

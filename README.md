@@ -59,7 +59,8 @@ Operating the e-commerce puzzle store.
 ai-crew/
 ├── README.md                 # You are here
 ├── docs/                     # Architecture and project documentation
-│   ├── ARCHITECTURE.md       # System design, org chart, information flows
+│   ├── ARCHITECTURE.md       # Conceptual design, org chart, information flows
+│   ├── SYSTEM_ARCHITECTURE.md # Technical three-layer architecture
 │   ├── AGENT_ROSTER.md       # Canonical list of all 18 agents
 │   ├── BUILD_PLAN.md         # Implementation roadmap
 │   ├── CONVENTIONS.md        # Naming and formatting standards
@@ -80,12 +81,18 @@ ai-crew/
 │   ├── 03-SPEC-WRITING.md    # How specs were developed
 │   ├── 04-LESSONS-LEARNED.md # What worked, what didn't
 │   └── 05-CLIENT-DEMO.md     # Talking points for presentations
-└── org/                      # Organizational infrastructure (HR/IT)
-    ├── PROTOCOLS.md          # Hierarchy, communication, conflict resolution
-    ├── ONBOARDING.md         # New agent checklist
-    ├── OFFBOARDING.md        # Agent removal checklist
-    ├── ORG_CHART.md          # Mermaid diagrams
-    └── ORG_CHART.excalidraw  # Editable visual org chart
+├── org/                      # Organizational infrastructure (HR/IT)
+│   ├── PROTOCOLS.md          # Hierarchy, communication, conflict resolution
+│   ├── ONBOARDING.md         # New agent checklist
+│   ├── OFFBOARDING.md        # Agent removal checklist
+│   ├── ORG_CHART.md          # Mermaid diagrams
+│   └── ORG_CHART.excalidraw  # Editable visual org chart
+└── notion/                   # Notion database files (ready for import)
+    ├── README.md             # Import instructions and setup guide
+    ├── Agent_Registry.csv    # Master roster of all 18 agents
+    ├── Activity_Log.csv      # Agent activity logging template
+    ├── Exception_Queue.csv   # Issues requiring human review
+    └── Exception_Types.csv   # Configurable exception categories
 ```
 
 ## Agent Spec Format
@@ -129,6 +136,18 @@ All agents are named after historical figures, mythological characters, or notab
 - And so on...
 
 This makes agents memorable and their roles intuitive.
+
+## System Architecture
+
+The AI Crew operates on a three-layer model:
+
+| Layer | Purpose | Tool |
+|-------|---------|------|
+| **Human Interface** | Your cockpit; status, decisions, exceptions | Notion |
+| **Orchestration** | Routing, triggers, execution, coordination | n8n |
+| **Data Layer** | Persistent storage, logs, historical record | Notion databases |
+
+See [SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md) for full technical details.
 
 ## Technology Stack
 

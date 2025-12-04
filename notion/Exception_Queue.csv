@@ -1,0 +1,6 @@
+ID,Timestamp,Agent,Exception Type,Severity,Summary,Details,Escalated To,Status,Resolution,Resolved By,Resolved At
+EX-001,2024-12-03T09:00:00Z,Ada,API Failure,High,Instagram API timeout,Connection timeout after 30s; retry failed 3x,Xavier,Open,,,
+EX-002,2024-12-03T09:15:00Z,Warren,Decision Escalation,Medium,Expense over $1000 threshold,Client dinner $1250 requires JD approval,JD,Pending Review,,,
+EX-003,2024-12-03T09:30:00Z,Clara,Customer Complaint,Medium,Refund request outside policy,Customer requesting refund 45 days after purchase (policy is 30),Franklin,Open,,,
+EX-004,2024-12-03T10:00:00Z,Helena,Cross-Agent Conflict,Low,Lead ownership dispute,Same contact in Eleanor CRM and Helena pipeline,Xavier,Open,,,
+EX-005,2024-12-03T10:30:00Z,Hetty,Values Flag,Medium,Tax optimization concern,Strategy is legal but aggressive; flagging for review,Aurelius,Pending Review,,,

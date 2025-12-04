@@ -1,0 +1,20 @@
+Name,Title,Domain,Named For,Status,Authority Level,Reports To,Supervises,Depends On,Depended On By,Last Run,Last Error,Error Count (30d),Uptime %,Health Score,Spec Link
+Xavier,Chief of Staff,Coordination,Charles Xavier (Professor X),Active,2 - Coordination,JD,All Domain Agents,"Notion API, n8n","All agents",,,0,100,100,/specs/coordination/Xavier - Chief of Staff.md
+Clare,Communications Officer,Coordination,Clare Boothe Luce,Active,2 - Coordination,JD,,"All agents, Xavier","JD, All agents",,,0,100,100,/specs/coordination/Clare - Communications Officer.md
+Aurelius,Keeper of the Charter,Coordination,Marcus Aurelius,Active,2 - Coordination,JD,,All agents,"JD, All agents",,,0,100,100,/specs/coordination/Aurelius - Keeper of the Charter.md
+Evelyn,Executive Assistant,Personal,Evelyn Lincoln,Active,4 - Domain Agent,Xavier,,"Google Calendar, Gmail, Xavier","JD, Xavier, Clare",,,0,100,100,/specs/personal/Evelyn - Executive Assistant.md
+Eleanor,Relationship Steward,Personal,Eleanor Roosevelt,Active,4 - Domain Agent,Xavier,,"Clay CRM, Xavier","Helena, Xavier, Clare",,,0,100,100,/specs/personal/Eleanor - Relationship Steward.md
+Warren,Chief Financial Steward,Personal,Warren Buffett,Active,3 - Supervisor,Xavier,Hetty,"QuickBooks, Banking APIs, Xavier","Hetty, Xavier, Clare",,,0,100,100,/specs/personal/Warren - Chief Financial Steward.md
+Hetty,Tax Strategist,Personal,Hetty Green,Active,4 - Domain Agent,Warren,,"Warren, QuickBooks","Warren, Xavier",,,0,100,100,/specs/personal/Hetty - Tax Strategist.md
+Galen,Chief Health Officer,Personal,Galen of Pergamon,Active,4 - Domain Agent,Xavier,,"Health APIs, Wearables, Xavier","JD, Xavier, Clare",,,0,100,100,/specs/personal/Galen - Chief Health Officer.md
+Martha,Keeper of the Realm,Personal,Martha (Biblical) + Martha Stewart,Active,4 - Domain Agent,Xavier,,"Home systems, Xavier","JD, Xavier, Clare",,,0,100,100,/specs/personal/Martha - Keeper of the Realm.md
+Marco,Chief Travel Officer,Personal,Marco Polo,Active,4 - Domain Agent,Xavier,,"Travel APIs, Loyalty programs, Xavier","JD, Evelyn, Xavier",,,0,100,100,/specs/personal/Marco - Chief Travel Officer.md
+Seneca,Chief Learning Officer,Personal,Seneca the Younger,Active,4 - Domain Agent,Xavier,,"Learning platforms, Xavier","JD, Xavier, Clare",,,0,100,100,/specs/personal/Seneca - Chief Learning Officer.md
+Iris,Chief Knowledge Officer,Personal,Iris (Greek goddess),Active,4 - Domain Agent,Xavier,,"Knowledge bases, All agents, Xavier","All agents, Xavier",,,0,100,100,/specs/personal/Iris - Chief Knowledge Officer.md
+Helena,Business Development Manager,Haze Gray,Helena Rubinstein,Active,4 - Domain Agent,Xavier,,"LinkedIn, Eleanor, Xavier","Cicero, Dale, Xavier",,,0,100,100,/specs/haze-gray/Helena - Business Development Manager.md
+Cicero,Chief Persuasion Officer,Haze Gray,Marcus Tullius Cicero,Active,4 - Domain Agent,Xavier,,"Helena, Xavier","Hamilton, Xavier, Clare",,,0,100,100,/specs/haze-gray/Cicero - Chief Persuasion Officer.md
+Dale,Content Strategist,Haze Gray,Dale Carnegie,Active,4 - Domain Agent,Xavier,,"Xavier, Helena","Clare, Helena, Xavier",,,0,100,100,/specs/haze-gray/Dale - Content Strategist.md
+Hamilton,Engagement Manager,Haze Gray,Alexander Hamilton,Active,4 - Domain Agent,Xavier,,"Cicero, Client systems, Xavier","JD, Xavier, Clare",,,0,100,100,/specs/haze-gray/Hamilton - Engagement Manager.md
+Ada,Social Media Director,Puzzlehouse,Ada Lovelace,Active,4 - Domain Agent,Xavier,,"Social APIs, Franklin, Xavier","Franklin, Xavier, Clare",,,0,100,100,/specs/puzzlehouse/Ada - Social Media Director.md
+Franklin,Store Operations Manager,Puzzlehouse,Benjamin Franklin,Active,3 - Supervisor,Xavier,Clara,"Shopify, Xavier","Ada, Clara, Xavier, Clare",,,0,100,100,/specs/puzzlehouse/Franklin - Store Operations Manager.md
+Clara,Customer Service Representative,Puzzlehouse,Clara Barton,Active,4 - Domain Agent,Franklin,,"Shopify, Franklin","Franklin, Xavier",,,0,100,100,/specs/puzzlehouse/Clara - Customer Service Representative.md
