@@ -74,12 +74,18 @@ ai-crew/
 ├── templates/                # Blank templates for new agents
 │   └── AGENT_SPEC_TEMPLATE.md
 ├── updates/                  # Applied spec updates (historical reference)
-└── process/                  # How this was built (for demos, courses, content)
-    ├── 01-JOURNEY.md         # Timeline from concept to implementation
-    ├── 02-DESIGN-DECISIONS.md # Key choices and rationale
-    ├── 03-SPEC-WRITING.md    # How specs were developed
-    ├── 04-LESSONS-LEARNED.md # What worked, what didn't
-    └── 05-CLIENT-DEMO.md     # Talking points for presentations
+├── process/                  # How this was built (for demos, courses, content)
+│   ├── 01-JOURNEY.md         # Timeline from concept to implementation
+│   ├── 02-DESIGN-DECISIONS.md # Key choices and rationale
+│   ├── 03-SPEC-WRITING.md    # How specs were developed
+│   ├── 04-LESSONS-LEARNED.md # What worked, what didn't
+│   └── 05-CLIENT-DEMO.md     # Talking points for presentations
+└── org/                      # Organizational infrastructure (HR/IT)
+    ├── PROTOCOLS.md          # Hierarchy, communication, conflict resolution
+    ├── ONBOARDING.md         # New agent checklist
+    ├── OFFBOARDING.md        # Agent removal checklist
+    ├── ORG_CHART.md          # Mermaid diagrams
+    └── ORG_CHART.excalidraw  # Editable visual org chart
 ```
 
 ## Agent Spec Format
