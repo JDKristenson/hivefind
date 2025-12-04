@@ -73,7 +73,13 @@ ai-crew/
 │   └── puzzlehouse/          # Ada, Franklin, Clara
 ├── templates/                # Blank templates for new agents
 │   └── AGENT_SPEC_TEMPLATE.md
-└── updates/                  # Applied spec updates (historical reference)
+├── updates/                  # Applied spec updates (historical reference)
+└── process/                  # How this was built (for demos, courses, content)
+    ├── 01-JOURNEY.md         # Timeline from concept to implementation
+    ├── 02-DESIGN-DECISIONS.md # Key choices and rationale
+    ├── 03-SPEC-WRITING.md    # How specs were developed
+    ├── 04-LESSONS-LEARNED.md # What worked, what didn't
+    └── 05-CLIENT-DEMO.md     # Talking points for presentations
 ```
 
 ## Agent Spec Format
@@ -135,6 +141,17 @@ This makes agents memorable and their roles intuitive.
 ## Status
 
 All 18 agent specifications are complete and documented. Implementation is ongoing via n8n workflows.
+
+## How This Was Built
+
+Want to understand the process behind designing an AI workforce? The [`process/`](process/) folder documents:
+- The journey from concept to 18 agents
+- Key design decisions and their rationale
+- The spec-writing methodology
+- Lessons learned along the way
+- Talking points for client demos
+
+This material is useful for anyone wanting to replicate the approach or understand the thinking behind the system.
 
 ## License
 
