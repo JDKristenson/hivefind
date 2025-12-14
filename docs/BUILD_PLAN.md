@@ -9,8 +9,9 @@ This document sequences the implementation of JD's AI agent ecosystem. Build ord
 
 | Phase | Focus | Duration | Agents |
 |-------|-------|----------|--------|
-| 0 | Infrastructure | 1 week | — |
+| 0 | Infrastructure + Memory | 1 week | — |
 | 1 | Foundation | 2 weeks | Eleanor (EA) |
+| 1B | Memory Curator | 1 week | Evelyn (Memory) |
 | 2 | Quick Win | 1 week | Ada (Social) |
 | 3 | Personal Value | 1 week | Aurelius (Accountability) |
 | 4 | Coordination | 2 weeks | Xavier (Chief of Staff) |
@@ -22,10 +23,10 @@ This document sequences the implementation of JD's AI agent ecosystem. Build ord
 ---
 
 ## Phase 0: Infrastructure Setup
-**Duration**: 1 week  
-**Goal**: Establish the technical foundation all agents will use
+**Duration**: 1 week
+**Goal**: Establish the technical foundation all agents will use, including memory layer
 
-### Tasks
+### Core Infrastructure Tasks
 - [ ] Set up n8n instance (self-hosted or cloud)
 - [ ] Configure Notion workspace with Hivefind HQ structure
 - [ ] Establish API connections:
@@ -37,10 +38,22 @@ This document sequences the implementation of JD's AI agent ecosystem. Build ord
 - [ ] Document all credentials securely
 - [ ] Create test workflows to validate connections
 
+### Memory Layer Tasks
+- [ ] Set up Pinecone account and create `hivefind-memory` index
+- [ ] Create Notion memory databases:
+  - [ ] Explicit Preferences
+  - [ ] Business Rules
+  - [ ] Entity Directory
+  - [ ] Memory Review Queue
+- [ ] Build memory ingestion n8n workflow (agent → Pinecone)
+- [ ] Build memory query n8n workflow (Evelyn interface)
+- [ ] Test with synthetic memories to validate retrieval
+
 ### Success Criteria
 - All core APIs authenticated and tested
-- Notion structure deployed
+- Notion structure deployed (including memory databases)
 - n8n operational with test workflow running
+- Memory layer storing and retrieving test data correctly
 
 ---
 
@@ -76,6 +89,44 @@ This document sequences the implementation of JD's AI agent ecosystem. Build ord
 - 90%+ email classification accuracy
 - Meeting prep delivered reliably
 - Estimated 5+ hours/week saved
+
+---
+
+## Phase 1B: Evelyn (Memory Curator)
+**Duration**: 1 week
+**Dependencies**: Phase 0 (memory infrastructure), Phase 1 (need an agent generating memories)
+**Why Now**: Memory curation must be active early so all subsequent agents benefit from collective learning
+
+### Agent Summary
+| Attribute | Value |
+|-----------|-------|
+| Name | Evelyn |
+| Title | Memory Curator |
+| Mission | Curate, consolidate, and serve the collective memory of all agents |
+| Integrations | Pinecone, Notion, all other agents |
+
+### Key Workflows
+1. **Memory Ingestion**: When agent submits memory → Validate, tag, embed → Store in Pinecone
+2. **Pre-Action Briefing**: When agent requests knowledge → Query both layers → Return synthesized brief
+3. **Correction Processing**: When human overrides agent → Capture context, extract lesson → Update memories
+4. **Weekly Consolidation**: Sunday evening → Analyze patterns → Promote validated insights to Notion
+5. **Memory Health Check**: Monthly → Audit quality, identify gaps → Generate health report
+
+### Build Tasks
+- [ ] Draft full Evelyn agent spec
+- [ ] Build memory ingestion workflow in n8n
+- [ ] Build pre-action briefing workflow
+- [ ] Build correction processing workflow
+- [ ] Build weekly consolidation workflow
+- [ ] Integrate with Eleanor (first memory-enabled agent)
+- [ ] Test memory round-trip (write → retrieve → use)
+- [ ] Document memory payload format for other agents
+
+### Success Criteria
+- Memories stored and retrieved accurately
+- Eleanor queries memory before key decisions
+- Corrections captured and surfaced appropriately
+- Weekly consolidation producing useful pattern reports
 
 ---
 
@@ -320,5 +371,100 @@ After Phase 7, build remaining agents based on priority:
 
 ---
 
-*Last Updated: [Current Date]*
-*Version: 1.0*
+## Architectural Improvements Backlog
+
+These are structural gaps identified during architecture review. Not tied to specific phases; address as the system matures and pain points emerge.
+
+### 1. Feedback Loop Mechanism
+**Gap**: When JD overrides an agent decision or corrects output, there's no systematic process to capture that correction and improve future behavior.
+
+**Solution Direction**:
+- Standardized correction capture workflow
+- Feedback tagged by agent, decision type, and severity
+- Periodic review of corrections to update agent prompts/logic
+- Integration with Evelyn's memory layer
+
+**Trigger to Address**: When correction frequency is high for any agent, or when the same mistake recurs.
+
+---
+
+### 2. Conflict Resolution Protocol
+**Gap**: No defined process for when agents have competing recommendations (e.g., Hamilton schedules a meeting that conflicts with Galen's recovery recommendation; Warren flags budget constraints while Atlas is mid-booking).
+
+**Solution Direction**:
+- Priority hierarchy for different agent domains
+- Conflict detection workflow in Xavier
+- Escalation path when conflicts can't be auto-resolved
+- Decision logging for pattern analysis
+
+**Trigger to Address**: When multiple agents are operational and cross-agent workflows begin (Phase 4+).
+
+---
+
+### 3. Versioning and Rollback
+**Gap**: If an agent's behavior degrades (bad prompt change, workflow bug, model drift), there's no mechanism to detect regression or revert to a known-good state.
+
+**Solution Direction**:
+- Git-based versioning for all agent prompts and n8n workflows
+- Baseline performance metrics captured per agent
+- Automated regression detection (accuracy drops, error rate spikes)
+- One-click rollback capability in n8n
+
+**Trigger to Address**: After first major agent behavior regression, or proactively before Phase 4.
+
+---
+
+### 4. Agent Self-Assessment
+**Gap**: Agents have success metrics in their specs, but no workflow actually measures and reports on them. You'd have to manually audit whether Eleanor hits 90% classification accuracy.
+
+**Solution Direction**:
+- Weekly metrics collection workflow per agent
+- Automated accuracy sampling (random review of agent decisions)
+- Dashboard in Notion showing agent health scores
+- Alerts when metrics fall below threshold
+
+**Trigger to Address**: After 3+ agents operational; becomes Xavier's responsibility.
+
+---
+
+### 5. Graceful Degradation Protocol
+**Gap**: Architecture states "if one agent fails, others continue" but there's no defined fallback behavior or notification chain.
+
+**Solution Direction**:
+- Health check heartbeats for each agent
+- Defined fallback actions (e.g., if Eleanor fails, emails go unprocessed but flagged)
+- Escalation to JD with clear "agent down" alerts
+- Recovery procedures documented per agent
+
+**Trigger to Address**: First agent failure in production, or proactively in Phase 4.
+
+---
+
+### 6. Demo/Sandbox Mode
+**Gap**: System is designed as a client demo showcase, but no isolation between personal data and demo environment.
+
+**Solution Direction**:
+- Separate Notion databases for demo content
+- Synthetic data generators for realistic demos
+- Privacy filters that anonymize real data for demos
+- One-click switch between live and demo modes
+
+**Trigger to Address**: Before first client demo using HiveFind as showcase.
+
+---
+
+### 7. Audit Trail and Explainability
+**Gap**: No comprehensive logging of why agents made specific decisions, making debugging and trust-building difficult.
+
+**Solution Direction**:
+- Decision logging with rationale for all non-trivial agent actions
+- "Explain this decision" query capability
+- Audit dashboard showing decision history
+- Export capability for compliance/review
+
+**Trigger to Address**: When JD or clients ask "why did it do that?" and the answer isn't clear.
+
+---
+
+*Last Updated: December 2025*
+*Version: 1.1*
