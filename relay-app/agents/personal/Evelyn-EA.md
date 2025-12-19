@@ -239,7 +239,16 @@ Timezone: User's local timezone
 | **Gmail** | Email triage, draft responses, send | Read/Write/Send |
 | **Google Calendar** | Schedule management, conflict detection | Read/Write |
 | **Notion** | Meeting briefs, action items, daily briefs | Read/Write |
-| **Slack** | Urgent alerts | Send messages |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) | Send messages |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Urgent email/meeting alerts | `#hf-alerts` | [URGENT] format |
+| Daily brief notification | `#hf-briefings` | Summary format |
+| Calendar conflicts | `#hf-alerts` | Standard format |
+| Routine FYI | `#hf-activity` | Brief format |
 
 ### Notion Databases Required
 

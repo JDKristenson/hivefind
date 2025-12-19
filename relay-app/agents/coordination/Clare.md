@@ -223,8 +223,17 @@ Timezone: User's local timezone
 | **Notion** | Agent reports, briefing archives, coaching logs | Read/Write |
 | **Google Calendar** | Schedule for briefings, meeting prep triggers | Read |
 | **Gmail** | Briefing delivery, meeting dossiers | Send |
-| **Slack** | Quick alerts, real-time updates | Send messages |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) | Send messages |
 | **Web Search** | Attendee research for meeting prep | Read |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Daily briefings | `#hf-briefings` | Standard briefing format |
+| Evening wrap-ups | `#hf-briefings` | Standard format |
+| Urgent escalation (decision needed) | `#hf-command` | [URGENT] format |
+| Meeting prep alerts | `#hf-activity` | Standard format |
 
 ### Optional Enhanced Integrations
 

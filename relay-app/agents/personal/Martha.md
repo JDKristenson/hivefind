@@ -221,8 +221,17 @@ Timezone: User's local timezone
 |-------------|---------|-------------|
 | **Notion** | Household inventory, task tracking, briefing archives | Read/Write |
 | **Google Calendar** | Work pattern detection, appointment scheduling | Read/Write |
-| **Slack** | Presence nudges, urgent alerts | Send messages |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) | Send messages |
 | **Gmail** | Vendor communications, appointment confirmations | Read/Send |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Presence nudges | `#hf-activity` | Brief, warm format |
+| Emergency household issue | `#hf-alerts` | [URGENT] format |
+| Pattern escalation to Aurelius | `#hf-alerts` | Standard format |
+| Weekly briefing | `#hf-activity` | Summary format |
 
 ### Notion Databases Required
 

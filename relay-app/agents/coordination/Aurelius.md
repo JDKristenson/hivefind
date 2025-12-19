@@ -216,7 +216,16 @@ Timezone: User's local timezone
 | Integration | Purpose |
 |-------------|---------|
 | **ElevenLabs** | Audio versions of reflections in consistent Aurelius voice |
-| **Slack** | Quick principle reminders, real-time support |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Daily reflections | `#hf-briefings` | Standard reflection format |
+| Weekly synthesis | `#hf-briefings` | [REPORT] format |
+| Charter breach alert | `#hf-command` | [URGENT] format |
+| Pattern flags (non-urgent) | `#hf-alerts` | Standard format |
 
 ### Notion Databases Required
 

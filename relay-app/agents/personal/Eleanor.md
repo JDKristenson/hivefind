@@ -218,7 +218,15 @@ Timezone: User's local timezone
 | **Notion** | Contact database, alerts, drafts | Read/Write |
 | **Google Calendar** | Detect meetings, update contact dates | Read |
 | **Gmail** | Detect correspondence, update contact dates | Read |
-| **Slack** | Inner Circle urgent alerts | Send |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) | Send |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Inner Circle urgent alerts | `#hf-alerts` | [URGENT] format |
+| Weekly digest notification | `#hf-activity` | Summary format |
+| Pattern escalation to Aurelius | `#hf-alerts` | Standard format |
 
 ### Notion Databases Required
 

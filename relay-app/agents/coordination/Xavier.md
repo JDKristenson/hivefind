@@ -170,9 +170,23 @@ Timezone: User's local timezone
 | Integration | Purpose | Permissions |
 |-------------|---------|-------------|
 | **Notion** | Fleet dashboard, health logs, activity logs | Read/Write |
-| **Slack** | Urgent escalations to JD | Send messages |
-| **Gmail** | Standard escalations | Send emails |
-| **HTTP Request** | Monitor external APIs (Shopify, Meta, etc.) | GET requests |
+| **Slack** | Tiered notifications (see SLACK-CHANNELS.md) | Send messages |
+| **Gmail** | Monthly reports, non-urgent summaries | Send emails |
+
+### Slack Channel Routing
+
+| Condition | Channel | Format |
+|-----------|---------|--------|
+| Critical escalation (decision needed) | `#hf-command` | [URGENT] format |
+| Fleet health issues (YELLOW/RED) | `#hf-alerts` | Standard format |
+| Monthly fleet review | `#hf-briefings` | [REPORT] format |
+| Routine health checks (GREEN) | No Slack (Notion only) | - |
+
+### HTTP Integrations
+
+| Integration | Purpose |
+|-------------|---------|
+| **HTTP Request** | Monitor external APIs (Shopify, Meta, etc.) |
 
 ### Notion Databases Required
 
@@ -326,9 +340,9 @@ Duration: 12 seconds
 
 ### Example 2: Error Escalation
 
-**Slack Message (Critical):**
+**Slack Message to `#hf-command` (Critical):**
 ```
-JD—
+[URGENT] Ada Meta API access revoked
 
 Ada's Meta API access was revoked. Token expiration we missed. Instagram and Facebook posting is down.
 
@@ -337,6 +351,15 @@ Fix requires re-authenticating through Meta Business Suite. I can walk you throu
 Recommend adding token expiration monitoring to prevent recurrence.
 
 Yes to proceed with re-auth walkthrough?
+
+—X
+```
+
+**Slack Message to `#hf-alerts` (Non-Critical):**
+```
+[Xavier] Ada Instagram rate limit hit
+
+Temporary throttle on Instagram posting. Auto-recovery in 15 minutes. No action needed.
 
 —X
 ```
