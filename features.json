@@ -57,7 +57,7 @@
         "Run a test query, get results",
         "Verify metadata fields match MEMORY_ARCHITECTURE.md schema"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 6,
