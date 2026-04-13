@@ -34,7 +34,7 @@
         "Log to services/embed/logs/ directory",
         "Verify logs capture both successful and rejected requests"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 4,

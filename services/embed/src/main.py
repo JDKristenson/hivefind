@@ -17,6 +17,7 @@ from slowapi.errors import RateLimitExceeded
 from src.auth import ApiKeyMiddleware
 from src.embedder import DEFAULT_DIMENSIONS, SUPPORTED_MIME_TYPES, GeminiEmbedder
 from src.ratelimit import limiter
+from src.request_logger import RequestLoggingMiddleware
 from src.models import (
     EmbedResponse,
     EmbedTextRequest,
@@ -87,6 +88,7 @@ app = FastAPI(
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(ApiKeyMiddleware)
+app.add_middleware(RequestLoggingMiddleware)
 
 
 @app.get("/health", response_model=HealthResponse)
