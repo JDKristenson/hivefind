@@ -23,7 +23,7 @@
         "Return 429 Too Many Requests when exceeded",
         "Run test confirming rate limit triggers"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 3,

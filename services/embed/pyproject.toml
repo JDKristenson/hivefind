@@ -1,0 +1,48 @@
+[project]
+name = "hivefind-embed"
+version = "0.1.0"
+description = "Gemini Embedding 2 service for HiveFind memory layer"
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.34",
+    "pinecone>=5.0",
+    "python-dotenv>=1.0",
+    "python-multipart>=0.0.18",
+    "slowapi>=0.1.9",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=4.0",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+    "mypy>=1.8",
+    "ruff>=0.3",
+    "black>=24.0",
+    "isort>=5.13",
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-v --cov=src"
+asyncio_mode = "auto"

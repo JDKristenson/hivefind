@@ -9,10 +9,14 @@ from datetime import datetime, timezone
 from typing import AsyncGenerator, Optional
 
 from dotenv import load_dotenv
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile
+
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
 
 from src.auth import ApiKeyMiddleware
 from src.embedder import DEFAULT_DIMENSIONS, SUPPORTED_MIME_TYPES, GeminiEmbedder
+from src.ratelimit import limiter
 from src.models import (
     EmbedResponse,
     EmbedTextRequest,
@@ -80,6 +84,8 @@ app = FastAPI(
     version="0.2.0",
     lifespan=lifespan,
 )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(ApiKeyMiddleware)
 
 
@@ -90,12 +96,13 @@ async def health_check() -> HealthResponse:
 
 
 @app.post("/embed/text", response_model=EmbedResponse)
-async def embed_text(request: EmbedTextRequest) -> EmbedResponse:
+@limiter.limit("60/minute")
+async def embed_text(request: Request, body: EmbedTextRequest) -> EmbedResponse:
     """Embed a plain text string and return the vector."""
     try:
         vector = embedder.embed_text(
-            text=request.text,
-            dimensions=request.dimensions,
+            text=body.text,
+            dimensions=body.dimensions,
         )
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Embedding failed: {e}") from e
@@ -108,7 +115,9 @@ async def embed_text(request: EmbedTextRequest) -> EmbedResponse:
 
 
 @app.post("/embed/file", response_model=EmbedResponse)
+@limiter.limit("60/minute")
 async def embed_file(
+    request: Request,
     file: UploadFile = File(...),
     caption: Optional[str] = Form(default=None),
     dimensions: int = Form(default=DEFAULT_DIMENSIONS),
@@ -147,7 +156,9 @@ async def embed_file(
 
 
 @app.post("/embed/multimodal", response_model=EmbedResponse)
+@limiter.limit("60/minute")
 async def embed_multimodal(
+    request: Request,
     text: Optional[str] = Form(default=None),
     files: list[UploadFile] = File(default=[]),
     dimensions: int = Form(default=DEFAULT_DIMENSIONS),
@@ -190,23 +201,24 @@ async def embed_multimodal(
 
 
 @app.post("/ingest", response_model=IngestResponse)
-async def ingest_memory(request: IngestRequest) -> IngestResponse:
+@limiter.limit("60/minute")
+async def ingest_memory(request: Request, body: IngestRequest) -> IngestResponse:
     """Full memory ingestion: embed text payload and upsert to Pinecone.
 
     This replaces the OpenAI embed + Pinecone upsert chain in
     Evelyn_01_MemoryIngestion.
     """
     embed_text_parts = [
-        f"Agent: {request.agent}",
-        f"Task: {request.task_type}",
-        f"Decision: {request.decision_made}",
-        f"Rationale: {request.rationale}",
-        f"Result: {request.result_summary}",
+        f"Agent: {body.agent}",
+        f"Task: {body.task_type}",
+        f"Decision: {body.decision_made}",
+        f"Rationale: {body.rationale}",
+        f"Result: {body.result_summary}",
     ]
-    if request.lessons:
-        embed_text_parts.append(f"Lessons: {'; '.join(request.lessons)}")
-    if request.tags:
-        embed_text_parts.append(f"Tags: {', '.join(request.tags)}")
+    if body.lessons:
+        embed_text_parts.append(f"Lessons: {'; '.join(body.lessons)}")
+    if body.tags:
+        embed_text_parts.append(f"Tags: {', '.join(body.tags)}")
 
     combined_text = "\n".join(embed_text_parts)
 
@@ -217,28 +229,28 @@ async def ingest_memory(request: IngestRequest) -> IngestResponse:
 
     metadata = {
         "type": "outcome",
-        "agent": request.agent,
-        "domain": request.domain,
-        "task_type": request.task_type,
-        "outcome": request.outcome,
-        "confidence": request.confidence,
-        "privacy_level": request.privacy_level,
-        "tags": request.tags,
-        "entity_refs": request.related_entities,
+        "agent": body.agent,
+        "domain": body.domain,
+        "task_type": body.task_type,
+        "outcome": body.outcome,
+        "confidence": body.confidence,
+        "privacy_level": body.privacy_level,
+        "tags": body.tags,
+        "entity_refs": body.related_entities,
         "modality": "text",
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "decision": request.decision_made,
-        "rationale": request.rationale,
-        "result_summary": request.result_summary,
-        "lessons": request.lessons,
+        "decision": body.decision_made,
+        "rationale": body.rationale,
+        "result_summary": body.result_summary,
+        "lessons": body.lessons,
     }
-    if request.human_feedback:
-        metadata["human_feedback"] = request.human_feedback
+    if body.human_feedback:
+        metadata["human_feedback"] = body.human_feedback
 
     memory_id = pinecone_client.upsert_vector(
         vector=vector,
         metadata=metadata,
-        vector_id=request.task_id,
+        vector_id=body.task_id,
     )
 
     return IngestResponse(
@@ -249,28 +261,29 @@ async def ingest_memory(request: IngestRequest) -> IngestResponse:
 
 
 @app.post("/query", response_model=QueryResponse)
-async def query_memories(request: QueryRequest) -> QueryResponse:
+@limiter.limit("60/minute")
+async def query_memories(request: Request, body: QueryRequest) -> QueryResponse:
     """Query memory: embed query text and search Pinecone.
 
     This replaces the OpenAI embed + Pinecone query chain in
     Evelyn_02_MemoryQuery.
     """
     try:
-        query_vector = embedder.embed_text(text=request.query_text)
+        query_vector = embedder.embed_text(text=body.query_text)
     except Exception as e:
         raise HTTPException(status_code=502, detail=f"Embedding failed: {e}") from e
 
     filters: dict[str, object] = {}
-    if request.agent:
-        filters["agent"] = request.agent
-    if request.domain:
-        filters["domain"] = request.domain
-    if request.modality_filter:
-        filters["modality"] = request.modality_filter
+    if body.agent:
+        filters["agent"] = body.agent
+    if body.domain:
+        filters["domain"] = body.domain
+    if body.modality_filter:
+        filters["modality"] = body.modality_filter
 
     matches = pinecone_client.query_vectors(
         vector=query_vector,
-        top_k=request.top_k,
+        top_k=body.top_k,
         filters=filters if filters else None,
     )
 
