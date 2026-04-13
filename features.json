@@ -46,7 +46,7 @@
         "Verify Gemini API key (new project claude-code-gws-cli-489903) works",
         "Embed a test string, get 3072-dim vector back"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 5,
