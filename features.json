@@ -1,0 +1,344 @@
+{
+  "features": [
+    {
+      "id": 1,
+      "category": "phase0-recovery",
+      "description": "Auth middleware: API key validation on all embed service endpoints",
+      "steps": [
+        "Add API key middleware to FastAPI app (X-API-Key header)",
+        "Load expected key from .env (EMBED_SERVICE_API_KEY)",
+        "Return 401 on missing/invalid key, 200 on valid",
+        "Health endpoint exempt from auth (for monitoring)",
+        "Run tests to verify auth blocks unauthenticated requests"
+      ],
+      "passes": true
+    },
+    {
+      "id": 2,
+      "category": "phase0-recovery",
+      "description": "Rate limiting: per-IP request throttling on embed service",
+      "steps": [
+        "Add slowapi or similar rate limiter",
+        "Default: 60 requests/minute per IP",
+        "Return 429 Too Many Requests when exceeded",
+        "Run test confirming rate limit triggers"
+      ],
+      "passes": false
+    },
+    {
+      "id": 3,
+      "category": "phase0-recovery",
+      "description": "Request logging: structured access logs with IP, endpoint, status",
+      "steps": [
+        "Add middleware logging each request (IP, path, status, latency)",
+        "Log to services/embed/logs/ directory",
+        "Verify logs capture both successful and rejected requests"
+      ],
+      "passes": false
+    },
+    {
+      "id": 4,
+      "category": "phase0-recovery",
+      "description": "Embed service starts on localhost and passes health check",
+      "steps": [
+        "Activate venv, run uvicorn",
+        "Curl localhost:8766/health returns 200",
+        "Verify Gemini API key (new project claude-code-gws-cli-489903) works",
+        "Embed a test string, get 3072-dim vector back"
+      ],
+      "passes": false
+    },
+    {
+      "id": 5,
+      "category": "phase0-recovery",
+      "description": "Pinecone connectivity: verify index accessible and has existing data",
+      "steps": [
+        "Query hivefind-memory-v2 index stats",
+        "Run a test query, get results",
+        "Verify metadata fields match MEMORY_ARCHITECTURE.md schema"
+      ],
+      "passes": false
+    },
+    {
+      "id": 6,
+      "category": "phase0-recovery",
+      "description": "ngrok tunnel with auth: re-expose embed service securely",
+      "steps": [
+        "Start ngrok tunnel to localhost:8766",
+        "Verify unauthenticated request to public URL returns 401",
+        "Verify authenticated request (with API key header) returns 200",
+        "Test from external network (curl from different context)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 7,
+      "category": "phase0-recovery",
+      "description": "Launchd daemons: re-enable embed + ngrok as managed services",
+      "steps": [
+        "Update plist files with new config (auth-enabled)",
+        "Load daemons via launchctl",
+        "Verify both services survive reboot simulation (unload/load)",
+        "Verify crash-loop protection (no KeepAlive without backoff)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 8,
+      "category": "phase0-recovery",
+      "description": "Test suite: unit + integration tests for embed service",
+      "steps": [
+        "Write tests for auth middleware (valid key, invalid key, missing key)",
+        "Write tests for rate limiting",
+        "Write tests for embed endpoints (text, file, multimodal)",
+        "Write tests for ingest and query endpoints",
+        "Run pytest -v, all pass with 80%+ coverage"
+      ],
+      "passes": false
+    },
+    {
+      "id": 9,
+      "category": "phase0-recovery",
+      "description": "n8n workflow update: add API key header to all HTTP requests hitting embed service",
+      "steps": [
+        "Update Evelyn_01_MemoryIngestion webhook to include X-API-Key",
+        "Update Evelyn_02_MemoryQuery webhook to include X-API-Key",
+        "Update EmailToNotion_InboxProcessor HTTP nodes",
+        "Test each workflow end-to-end with authenticated requests"
+      ],
+      "passes": false
+    },
+    {
+      "id": 10,
+      "category": "phase1-evelyn",
+      "description": "Notion cleanup: archive ~80 empty entries from failed workflow iterations",
+      "steps": [
+        "Query Email Inbox DB for entries with empty Subject/From",
+        "Archive or delete empty entries via Notion API",
+        "Verify only valid entries remain (should be 2)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 11,
+      "category": "phase1-evelyn",
+      "description": "Calendar sync: activate CalendarToNotion workflow in n8n",
+      "steps": [
+        "Load CalendarToNotion_EventSync workflow into n8n cloud",
+        "Configure Google Calendar credential",
+        "Set 15-minute sync interval",
+        "Create a test calendar event",
+        "Verify event appears in Notion Calendar Events DB"
+      ],
+      "passes": false
+    },
+    {
+      "id": 12,
+      "category": "phase1-evelyn",
+      "description": "Attendee extraction: parse Google Calendar attendee list into Notion",
+      "steps": [
+        "Add Code node to extract attendee name, email, responseStatus",
+        "Store attendee details in Calendar Events DB properties",
+        "Test with multi-attendee event",
+        "Verify attendee data populates correctly"
+      ],
+      "passes": false
+    },
+    {
+      "id": 13,
+      "category": "phase1-evelyn",
+      "description": "Email ingestion end-to-end: label email, verify it flows through to Notion + Pinecone",
+      "steps": [
+        "Label a real email with process-with-ai",
+        "Wait for 5-min cycle to pick it up",
+        "Verify entry in Notion Email Inbox DB",
+        "Verify embedding stored in Pinecone (query by email subject)",
+        "Verify labels updated (hivefind-processed added, process-with-ai removed)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 14,
+      "category": "phase1-evelyn",
+      "description": "Memory query: ask a question, get relevant email context back",
+      "steps": [
+        "POST to /query with a natural language question",
+        "Get back ranked matches from Pinecone",
+        "Verify results include metadata (agent, domain, timestamps)",
+        "Verify semantic relevance (query about X returns emails about X)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 15,
+      "category": "phase1-evelyn",
+      "description": "Query/response workflow: user question -> memory lookup -> LLM summary",
+      "steps": [
+        "Create n8n workflow: webhook input -> embed query -> Pinecone search -> Claude API summarize",
+        "Include Notion explicit preferences in context",
+        "Test with real question about stored emails",
+        "Verify response is coherent and cites source emails"
+      ],
+      "passes": false
+    },
+    {
+      "id": 16,
+      "category": "phase1-evelyn",
+      "description": "Calendar prep workflow: pre-meeting attendee research brief",
+      "steps": [
+        "Create n8n workflow: triggered 1hr before meetings",
+        "Look up attendees in memory (past interactions, preferences)",
+        "Generate brief with attendee context + meeting agenda",
+        "Deliver to Notion or email"
+      ],
+      "passes": false
+    },
+    {
+      "id": 17,
+      "category": "phase1-evelyn",
+      "description": "Daily summary workflow: evening digest of calendar + pending items",
+      "steps": [
+        "Create n8n workflow: triggered at 8 PM ET daily",
+        "Aggregate tomorrow's calendar events",
+        "List pending/unprocessed items from email inbox",
+        "Generate summary via Claude API",
+        "Deliver to Notion daily log"
+      ],
+      "passes": false
+    },
+    {
+      "id": 18,
+      "category": "phase1-evelyn",
+      "description": "Memory review queue: user can approve/reject memories before Pinecone storage",
+      "steps": [
+        "Create Notion Memory Review Queue DB (if not exists)",
+        "Route new memories to queue instead of direct Pinecone insert",
+        "Add approve/reject status field",
+        "On approve: embed and store to Pinecone",
+        "On reject: archive in Notion, skip Pinecone"
+      ],
+      "passes": false
+    },
+    {
+      "id": 19,
+      "category": "phase1-evelyn",
+      "description": "Preference capture: explicit user preferences stored in Notion",
+      "steps": [
+        "Create Explicit Preferences DB in Notion",
+        "Seed with known preferences (flight times, meeting limits, etc.)",
+        "Wire preferences into query/response workflow context",
+        "Test: query where preference should influence response"
+      ],
+      "passes": false
+    },
+    {
+      "id": 20,
+      "category": "phase2-runway",
+      "description": "Session chaining: Runway calls >5 minutes auto-chain to new sessions",
+      "steps": [
+        "Detect session approaching 5-min limit",
+        "Auto-initiate new session with context carryover",
+        "User experience is seamless (no visible break)",
+        "Test with 8-minute conversation"
+      ],
+      "passes": false
+    },
+    {
+      "id": 21,
+      "category": "phase2-runway",
+      "description": "Recording: save Runway video call recordings to Notion",
+      "steps": [
+        "Capture session recording from Runway SDK",
+        "Upload to cloud storage (S3 or GCS)",
+        "Create Notion entry with recording link, duration, transcript summary",
+        "Test: complete a call, verify recording appears in Notion"
+      ],
+      "passes": false
+    },
+    {
+      "id": 22,
+      "category": "phase2-runway",
+      "description": "Mobile responsive: Runway agents app works on phone screens",
+      "steps": [
+        "Add responsive CSS/layout to runwayagents Next.js app",
+        "Test on iPhone viewport (375px)",
+        "Verify video call controls accessible on mobile",
+        "Verify text chat readable on small screens"
+      ],
+      "passes": false
+    },
+    {
+      "id": 23,
+      "category": "phase2-runway",
+      "description": "HeyGen retirement: remove HeyGen dependencies, fully switch to Runway",
+      "steps": [
+        "Identify all HeyGen references in codebase",
+        "Remove HeyGen API keys and configs",
+        "Update persona assets to Runway-only",
+        "Verify no HeyGen calls remain"
+      ],
+      "passes": false
+    },
+    {
+      "id": 24,
+      "category": "phase2-runway",
+      "description": "Agent roster expansion: activate remaining 18 agents in Runway",
+      "steps": [
+        "Create Runway Characters for each agent using spec personality",
+        "Configure voice profiles per agent",
+        "Add to agent registry in runwayagents app",
+        "Test 3 representative agents (one per domain cluster)"
+      ],
+      "passes": false
+    },
+    {
+      "id": 25,
+      "category": "phase1-evelyn",
+      "description": "Correction processing: capture human overrides as high-value memories",
+      "steps": [
+        "Create n8n workflow triggered when user edits/corrects an agent output",
+        "Extract correction context (what was wrong, what's right)",
+        "Store as correction-type memory with 0.95 confidence",
+        "Verify correction influences future queries"
+      ],
+      "passes": false
+    },
+    {
+      "id": 26,
+      "category": "phase1-evelyn",
+      "description": "Weekly consolidation: Evelyn synthesizes patterns from week's memories",
+      "steps": [
+        "Create n8n workflow: triggered Sunday 11 PM",
+        "Query all memories from past 7 days",
+        "Use Claude API to identify patterns and trends",
+        "Generate consolidation report to Notion",
+        "Promote validated patterns to explicit knowledge"
+      ],
+      "passes": false
+    },
+    {
+      "id": 27,
+      "category": "infrastructure",
+      "description": "GCP budget monitoring: verify killswitch and alerts still active",
+      "steps": [
+        "Check Cloud Function billing killswitch is deployed",
+        "Verify Pub/Sub billing-alerts topic exists",
+        "Verify budget alert at $50/month on correct billing account",
+        "Confirm Gemini key is on claude-code-gws-cli-489903 only"
+      ],
+      "passes": false
+    },
+    {
+      "id": 28,
+      "category": "infrastructure",
+      "description": "Documentation update: reflect current state in README and docs",
+      "steps": [
+        "Update README.md tech stack (Runway replaces HeyGen)",
+        "Update MEMORY_ARCHITECTURE.md with resolved questions",
+        "Add auth middleware to SYSTEM_ARCHITECTURE.md",
+        "Verify all file paths in docs match actual structure"
+      ],
+      "passes": false
+    }
+  ]
+}

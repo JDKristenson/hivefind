@@ -1,0 +1,18 @@
+=== Session 0 (2026-04-12) — Reactivation ===
+CONTEXT: Resuming from session 65297bbd (2026-03-15). Project was in BACKBURNER since GCP billing incident (2026-03-26).
+
+STATE ON ARRIVAL:
+- Phase 0 (Memory Layer): OFFLINE — embed + ngrok daemons killed, old API keys deleted
+- Phase 1 (Evelyn EA): Partially complete — Gmail→Notion pipeline works, calendar sync not activated
+- Runway Characters: Working — Clare avatar live, 3 of 21 agents active
+- Critical blocker: embed service has NO auth middleware; cannot re-expose via ngrok
+
+WORKED ON: Project reactivation + marathon scaffolding
+COMPLETED:
+- Moved hivefind from BACKBURNER to ACTIVE
+- Read full previous session transcript (2088 lines)
+- Created features.json (28 features across 4 categories)
+- Set up marathon tracking files
+
+NEXT: Feature #1 — Auth middleware for embed service (critical path blocker)
+BLOCKERS: None
