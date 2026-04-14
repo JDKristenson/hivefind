@@ -418,9 +418,30 @@ Evelyn is the **administrative nerve center**. Every agent that needs JD's time 
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (morning brief at 7am) + DB property change (new meeting request, new email flagged) + Manual (JD requests)
+- Databases (Read): Eleanor's CRM, Helena's Pipeline, Hamilton's Client DB, Memory Entries (via Evelyn Memory)
+- Databases (Write): Meeting Briefs, Action Items, Activity Log
+- Agent Instructions: Chief Gatekeeper. Protect JD's time. Triage all email, manage calendar, prepare meeting briefs, capture action items. Draft responses in JD's voice.
+- Native Integrations Used: Google Workspace (Gmail, Calendar via Notion native)
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n
+- External APIs: Gmail API (email triage, draft responses), Google Calendar API (scheduling, conflict detection)
+- Inbound to Notion: Triaged email summaries, new meeting requests, calendar conflict alerts
+- Outbound from Notion: Approved draft responses, scheduling decisions, meeting brief updates
+
+> **Note:** Verify during build whether Notion's Google Workspace integration covers Gmail reads/writes and Calendar reads/writes. If yes, this agent becomes Notion-Native.
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n for workflow automation; Gmail API for email operations; Google Calendar API for scheduling; Notion for briefs and action items
+**Platform:** Notion (agent logic, briefs, action items) + n8n (Gmail/Calendar bridge if Notion native integration insufficient)
 
 **Phase 1 (Weeks 1-2):** Email triage and drafting (draft-only mode)
 **Phase 2 (Weeks 2-3):** Calendar management and meeting prep
@@ -429,7 +450,7 @@ Evelyn is the **administrative nerve center**. Every agent that needs JD's time 
 **Key Success Factor:** JD's trust is earned through accuracy. Start with drafts-for-review, demonstrate competence, gradually expand autonomy.
 
 **Integration Priority:**
-1. Gmail + Calendar (core function)
+1. Gmail + Calendar (core function — test Notion native integration first)
 2. Eleanor's CRM (relationship context)
 3. Helena/Hamilton (scheduling coordination)
 4. Xavier (briefing contribution)

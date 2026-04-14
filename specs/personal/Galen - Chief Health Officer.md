@@ -514,9 +514,28 @@ Before Galen can track your trajectory, he needs to know your starting point. In
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily briefing at 6:30am, workout check at 8pm, weekly synthesis Sundays at 8am) + DB property change (new medical record received, recovery score threshold breach)
+- Databases (Read): Health DB, Memory Entries, Calendar (for correlation)
+- Databases (Write): Health DB, Activity Log
+- Agent Instructions: Chief Health Officer. Aggregate biometric data, correlate health with calendar demands, flag recovery deficits, track workout accountability, manage medical records. Direct and assertive — assumes JD wants the truth early.
+- Native Integrations Used: None
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n
+- External APIs: Oura Ring API (sleep, readiness, HRV, resting HR, body temperature)
+- Inbound to Notion: Daily Oura metrics (sleep score, readiness, HRV, steps), Peloton workout data, Lose It nutrition data
+- Outbound from Notion: Recovery alerts, trend warnings, escalation triggers to Aurelius
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n (self-hosted for health data privacy) or Relay.app
+**Platform:** Notion (agent logic, health dashboard, medical records, Aurelius escalation) + n8n (Oura Ring API polling, Peloton/Lose It data sync)
 
 **Phase 1 (Week 1-2):** Integrate data sources, establish baseline, build Notion dashboard
 

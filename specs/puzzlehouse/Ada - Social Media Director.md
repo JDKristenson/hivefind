@@ -168,6 +168,25 @@
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** n8n-Primary
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily content publishing, Monday trend scan, Friday reporting)
+- Databases (Read): Content Calendar DB, Shopify product catalog (via Franklin)
+- Databases (Write): Content Calendar DB, Performance Metrics DB, Activity Log
+- Agent Instructions: Notion stores content calendar, performance metrics, and posting history. All scheduling, drafting, and analytics review happen in Notion.
+- Native Integrations Used: None
+
+**External API Bridge (n8n):**
+- Tool: n8n
+- External APIs: Meta Business Suite (Instagram + Facebook publishing and analytics), TikTok API (video/image publishing and analytics), LinkedIn API (post publishing and analytics), Pinterest API (pin publishing and analytics)
+- Inbound to Notion: Platform analytics (reach, engagement, follower growth), trend scan results, UGC mentions
+- Outbound from Notion: Approved content with platform-specific formatting, scheduled publish times, product data from Shopify catalog
+
+---
+
 ## IMPLEMENTATION NOTES
 
 **Recommended Automation Platforms:** n8n (self-hosted, flexible), Make.com, or Relay.app

@@ -356,6 +356,31 @@ Before Cicero can win rooms, he needs ammunition. Initial onboarding involves:
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: DB property change (new lead needs pitch) + Manual (proposal requests)
+- Databases (Read): Pipeline DB, Helena's lead dossiers, Memory Entries, Client DB
+- Databases (Write): Proposals DB, Activity Log
+- Agent Instructions: Master persuader. Craft cases, not just proposals. Structure wins before entering the room.
+- Native Integrations Used: None
+
+**External API Bridge:** None
+
+---
+
+## IMPLEMENTATION NOTES
+
+**Phase 1 (Weeks 1-2):** Case study development, voice calibration, template architecture
+
+**Phase 2 (Weeks 3-4):** Speaking topic development, pipeline setup, first pitch deliveries
+
+**Phase 3 (Month 2+):** Full operations, pattern learning from win/loss data, autonomy expansion
+
+---
+
 *Document Version: 1.0*
 *Created: December 2024*
 *Status: Ready for Implementation*

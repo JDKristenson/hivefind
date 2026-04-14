@@ -548,6 +548,37 @@ Before Dale can create content, he needs to understand JD's voice, expertise, an
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: DB property change (new source material added, content approved) + Scheduled (3x/week drafts, Friday 4pm report)
+- Databases (Read): Content Calendar DB, Memory Entries, Pipeline DB (for content alignment)
+- Databases (Write): Content Calendar DB, Activity Log
+- Agent Instructions: Content drafting, strategy, editorial calendar. Every piece answers "who in JD's network will this resonate with, and what door does it open?"
+- Native Integrations Used: None
+
+**External API Bridge (n8n):**
+- Tool: n8n
+- External APIs: LinkedIn API (posting, engagement analytics, audience monitoring)
+- Inbound to Notion: Engagement metrics, commenter profiles, trending topic signals
+- Outbound from Notion: Approved content for publishing, scheduled post queue
+
+---
+
+## IMPLEMENTATION NOTES
+
+**Recommended Platform:** n8n for publishing automation; Notion for content pipeline and editorial calendar
+
+**Phase 1 (Weeks 1-2):** Voice calibration, source material pipeline setup, Eleanor integration
+
+**Phase 2 (Weeks 3-4):** Content infrastructure, first publishing cadence, newsletter platform selection
+
+**Phase 3 (Month 2+):** Full operations, content-to-conversation tracking, cadence optimization
+
+---
+
 *Document Version: 1.0*
 *Created: December 2024*
 *Status: Ready for Implementation*

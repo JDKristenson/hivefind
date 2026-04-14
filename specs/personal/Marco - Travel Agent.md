@@ -460,9 +460,28 @@ Before Marco can operate autonomously, he needs your operating parameters:
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily upcoming travel review, weekly summary) + DB property change (new trip identified, expense logged, loyalty balance change) + Manual (booking requests)
+- Databases (Read): Travel DB, Memory Entries (travel preferences), Calendar
+- Databases (Write): Travel DB, Activity Log
+- Agent Instructions: Chief Travel Officer. Book travel autonomously within parameters, manage loyalty portfolio, categorize expenses, track reimbursements. Execute with full trust — interrupt only when trade-offs genuinely matter.
+- Native Integrations Used: Google Calendar (via Notion native) for travel blocking
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n
+- External APIs: Travel booking APIs (airline, hotel, car rental), loyalty program APIs (mileage/point balance checks), credit card portals (offer scanning)
+- Inbound to Notion: Booking confirmations, loyalty balances, expense receipts from bank feed
+- Outbound from Notion: Booking requests, expense categorization decisions, reimbursement submissions
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n (self-hosted for security) or Relay.app
+**Platform:** Notion (agent logic, trip logs, expense ledger, loyalty dashboard, reimbursement tracker) + n8n (travel booking APIs, loyalty program APIs, bank feed integration)
 
 **Phase 1 (Week 1-2):** Profile capture, loyalty audit, Notion infrastructure build
 

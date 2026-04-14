@@ -353,6 +353,21 @@ When a new engagement begins, Hamilton executes:
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: DB property change (new client onboarded, commitment due) + Scheduled (daily prioritization at 8am, Friday 4pm weekly report)
+- Databases (Read): Client DB, Commitment Ledger, Activity Log, Memory Entries
+- Databases (Write): Client DB, Commitment Ledger, Activity Log
+- Agent Instructions: Ledger-precise engagement manager. Track every commitment. Nothing slips.
+- Native Integrations Used: None
+
+**External API Bridge:** None
+
+---
+
 ## IMPLEMENTATION NOTES
 
 **Recommended Platform:** n8n (self-hosted for data control) or Relay.app

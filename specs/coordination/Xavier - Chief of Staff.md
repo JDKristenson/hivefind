@@ -400,9 +400,24 @@ When Xavier comes online, initial onboarding involves:
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily 6 AM health check, weekly summaries) + DB property change (new exceptions)
+- Databases (Read): Agent Registry, Activity Log, Exception Queue, Exception Types
+- Databases (Write): Activity Log, Exception Queue
+- Agent Instructions: Operations commander. Monitor fleet health, route requests, escalate exceptions.
+- Native Integrations Used: None (all Notion-internal)
+
+**External API Bridge:** None
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n (for workflow monitoring and cross-agent visibility)
+**Platform:** Notion-native agent (runs within Notion's built-in AI agent framework)
 
 **Phase 1 (Week 1):** Fleet inventory and monitoring setup
 **Phase 2 (Week 2-3):** Establish health baselines, first round of fixes
@@ -410,7 +425,7 @@ When Xavier comes online, initial onboarding involves:
 
 **Key Integration Point:**
 - Xavier monitors the other agents but does not interfere with their outputs
-- Xavier writes to his own Notion workspace; reads from agent workspaces
+- Xavier writes to his own Notion databases; reads from agent databases
 - Escalations to JD bypass other agents—X reports directly to CO
 
 ---

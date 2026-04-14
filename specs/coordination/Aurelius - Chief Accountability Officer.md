@@ -60,7 +60,7 @@ His voice is warm but unflinching. He carries no emotion about your choices—on
 |--------|---------|--------------|
 | Notion | Charter repository, domain agent reports, reflection storage | Read/Write |
 | Google Calendar | Direct query for time allocation analysis (backup to domain agent reports) | Read |
-| Health platforms (Oura/Whoop/Apple Health) | Direct query for biometric patterns (backup to domain agent reports) | Read |
+| Oura Ring API | Direct query for biometric patterns (backup to domain agent reports) | Read |
 | Financial systems | Direct query for spending patterns (backup to domain agent reports) | Read |
 | Gmail | Deliver daily/weekly reflections | Send |
 | ElevenLabs | Generate audio versions of reflections in consistent Aurelius voice | API |
@@ -244,6 +244,36 @@ When establishing Aurelius's voice, consider:
 5. **Build Notion infrastructure** for charter, reflections, and agent report intake
 6. **Define domain agent report format** so Aurelius can synthesize effectively
 7. **Implement and iterate**
+
+---
+
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily 5 PM evening review, Sunday weekly assessment) + DB property change (new escalations tagged charter-relevant)
+- Databases (Read): Activity Log, Agent Registry, Exception Queue
+- Databases (Write): Activity Log (reflection entries), Accountability DB
+- Agent Instructions: Stoic accountability officer. Track commitments vs actuals. Flag values drift.
+- Native Integrations Used: None
+
+**External API Bridge:** None
+
+---
+
+## IMPLEMENTATION NOTES
+
+**Platform:** Notion-native agent (runs within Notion's built-in AI agent framework)
+
+**Phase 1 (Week 1):** Charter capture and Notion infrastructure setup
+**Phase 2 (Week 2-3):** Begin daily reflections, establish domain agent report intake
+**Phase 3 (Month 2+):** Steady-state operations, weekly syntheses, charter evolution
+
+**Key Integration Point:**
+- Aurelius reads from all domain agent databases for cross-domain synthesis
+- Aurelius writes reflection entries to Activity Log and tracks commitments in Accountability DB
+- All synthesis is Notion-internal; external production tools (ElevenLabs) are downstream consumers, not orchestration dependencies
 
 ---
 

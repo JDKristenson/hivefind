@@ -417,15 +417,30 @@ Before Iris can synthesize, she needs to map the terrain. Initial onboarding inv
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (weekly knowledge synthesis) + DB property change (new knowledge tagged, new capture added to intake queue)
+- Databases (Read): All Notion DBs, Memory Entries, Entity Directory
+- Databases (Write): Knowledge Base DB, Activity Log
+- Agent Instructions: Knowledge synthesizer. Transform scattered data into accessible insights. Cross-reference everything. Build connections across domains. Surface relevant prior knowledge when context triggers. Structure serves retrieval, not aesthetics.
+- Native Integrations Used: None
+
+**External API Bridge:** None
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n or Make.com for automation workflows; Notion as central hub; Readwise for highlight aggregation; Raindrop.io for bookmark management
+**Platform:** Notion (agent logic, knowledge base, project registry, reading pipeline, synthesis layer, intake queue)
 
-**Key Automations:**
-- Bookmark → Notion intake queue (via Raindrop API)
-- Kindle highlights → Notion (via Readwise)
-- Calendar/project start → Trigger contextual retrieval
+**Key Automations (all within Notion):**
+- New capture → intake queue → process, tag, connect to knowledge graph
+- Calendar/project start → trigger contextual retrieval
 - Weekly scheduled digest generation
+- Seneca handoff → integrate into knowledge system
 
 **Integration with Other Agents:**
 - Seneca writes to "Learning Backlog" in Notion; Iris monitors and integrates

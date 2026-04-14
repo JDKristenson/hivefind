@@ -310,15 +310,30 @@ Before Seneca can hold the line, he needs to know where the line is. Initial onb
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (weekly curriculum review) + Manual (learning session requests)
+- Databases (Read): Learning DB, Memory Entries, Calendar
+- Databases (Write): Learning DB, Activity Log
+- Agent Instructions: Stoic learning officer. Impose depth over breadth. Protect learning time. Gate tangents ruthlessly. One active curriculum at a time. Progress-focused, not praise-focused.
+- Native Integrations Used: None
+
+**External API Bridge:** None
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n or Relay.app for workflow automation; Claude API for assessment and tutoring interactions
+**Platform:** Notion (agent logic, curriculum storage, progress tracking, session logs, resource library, Aurelius escalation)
 
-**Phase 1 (Week 1):** Onboarding—objective setting, resource audit, baseline assessment, curriculum v1.0
+**Phase 1 (Week 1):** Onboarding — objective setting, resource audit, baseline assessment, curriculum v1.0
 
-**Phase 2 (Weeks 2-4):** Daily operations—sessions, tracking, gating, weekly reviews
+**Phase 2 (Weeks 2-4):** Daily operations — sessions, tracking, gating, weekly reviews
 
-**Phase 3 (Month 2+):** Refinement—adjust pacing based on data, tune escalation thresholds, add project milestones
+**Phase 3 (Month 2+):** Refinement — adjust pacing based on data, tune escalation thresholds, add project milestones
 
 **Integration with Aurelius:**
 - Seneca writes to a dedicated "Learning" section in Aurelius's Notion intake

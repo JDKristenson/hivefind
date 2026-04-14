@@ -16,3 +16,53 @@ COMPLETED:
 
 NEXT: Feature #1 — Auth middleware for embed service (critical path blocker)
 BLOCKERS: None
+
+=== Session 1 (2026-04-12) — Auth + Rate Limiting ===
+WORKED ON: Features #1-2
+COMPLETED:
+- Feature #1: API key auth middleware (X-API-Key, hmac timing-safe, 503 if unconfigured)
+- Feature #2: Rate limiting via slowapi (60/min per IP, health exempt)
+- 57 tests passing, 83%+ coverage
+COMMITS: 57e45d4, e8508a1
+NEXT: Feature #3 — Request logging
+
+=== Session 2 (2026-04-13) — Logging + Live Verification ===
+WORKED ON: Features #3-4
+COMPLETED:
+- Feature #3: Structured request logging (JSON-line to logs/access-YYYY-MM-DD.jsonl)
+  - Logs IP, method, path, status, latency_ms, timestamp for all requests
+  - 5 new tests, all passing
+- Feature #4: Live localhost startup verified
+  - uvicorn starts on 127.0.0.1:8766
+  - Health check returns 200 with correct index (hivefind-memory-v2)
+  - Auth blocks unauthenticated (401)
+  - Gemini API key on claude-code-gws-cli-489903 returns 3072-dim vectors
+- 62 tests passing, 85% coverage
+COMMITS: 428b0c2, fb02c0f
+NOTE: venv must be recreated each session (anaconda paths hardcoded). Use ./venv/bin/python -m pytest (not source activate).
+NEXT: Feature #5 — Pinecone connectivity verification
+BLOCKERS: None
+
+=== Session 3 (2026-04-13) — Notion-First Architecture Refactor ===
+CONTEXT: Ultraplan session produced a major architecture refactor plan.
+HiveFind moves from 3-layer (Notion->n8n->APIs) to Notion-first model.
+n8n demoted to gap-filler. Pinecone kept as optional fallback.
+Evelyn splits into EA + Memory Curator (19 agents total).
+
+WORKED ON: Full documentation refactor (11 steps from ultraplan)
+COMPLETED:
+- Step 1: SYSTEM_ARCHITECTURE.md — rewritten v3.0 (Notion-first, tier classification)
+- Step 2: ARCHITECTURE.md — rewritten v3.0 (19 agents, updated tech stack)
+- Step 3: MEMORY_ARCHITECTURE.md — rewritten v2.0 (Notion-native memory, Pinecone fallback)
+- Step 4: BUILD_PLAN.md — rewritten v3.0 (9 phases, Notion-first sequence)
+- Step 5: AGENT_SPEC_TEMPLATE.md — added Platform Configuration section
+- Step 6: Created Evelyn - Memory Curator.md (new spec)
+- Step 7a: 3 coordination specs updated (Xavier, Clare, Aurelius)
+- Step 7b: 9 personal staff specs being updated
+- Step 7c: 7 HG+PH specs being updated
+- Step 8: Agent_Registry.csv — added Platform column + Evelyn (Memory) row
+- Steps 9-10: Roster, Org Chart, README being updated
+- Step 11: AGENTS_MD_CONVERSION_GUIDE.md — added Notion agent config guidance
+PENDING: Steps 7b, 7c, 9-10 (running in parallel agents)
+NEXT: Commit refactor, update features.json, continue embed service build
+BLOCKERS: None

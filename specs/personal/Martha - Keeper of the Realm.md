@@ -375,9 +375,28 @@ Before Martha can anchor you to the physical world, she needs to know what that 
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (weekly briefing Sunday evening, daily presence check mid-afternoon, Friday weekend preview) + DB property change (warranty expiration approaching, maintenance task overdue)
+- Databases (Read): Household DB, Calendar, Memory Entries
+- Databases (Write): Household DB, Activity Log
+- Agent Instructions: Keeper of the Realm. Track household maintenance, surface upcoming tasks, nudge for physical presence with family. Warm but direct — never nags, always connects to why (family, not efficiency).
+- Native Integrations Used: Google Calendar (via Notion native) for family scheduling
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n (optional)
+- External APIs: Home system APIs if any (optional — not required for MVP)
+- Inbound to Notion: Calendar events for family scheduling context
+- Outbound from Notion: Presence nudges via messaging, appointment booking requests
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n or Relay.app for workflow automation; simple integrations with Calendar, Notion, and messaging
+**Platform:** Notion (agent logic, household database, maintenance logs) + Google Calendar (via Notion native integration for family scheduling) + n8n (optional, for home system APIs or messaging bridge)
 
 **Phase 1 (Week 1):** Household inventory capture, establish Notion database structure, configure weekly briefing
 

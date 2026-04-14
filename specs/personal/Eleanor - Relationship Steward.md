@@ -416,17 +416,35 @@ Before Eleanor can steward your relationships, she needs to understand who matte
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily contact recency scan at 6am, weekly digest Sundays at 8am) + DB property change (new contact added, tier changed)
+- Databases (Read): Entity Directory, Memory Entries, Activity Log
+- Databases (Write): CRM DB, Entity Directory, Activity Log
+- Agent Instructions: Relationship Steward. Track contact recency across tiers, surface relationship alerts, generate draft outreach, identify connection opportunities. Never send on JD's behalf without approval.
+- Native Integrations Used: None
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n
+- External APIs: Clay API (contact enrichment, CRM sync), Google Calendar API (meeting detection), Gmail API (correspondence tracking), Twilio (SMS alerts)
+- Inbound to Notion: Enriched contact data from Clay, last-contact dates from Calendar/Gmail
+- Outbound from Notion: Alert triggers when contact thresholds exceeded, new contact entries for Clay sync
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n (self-hosted for privacy) or Relay.app
+**Platform:** Notion (agent logic, CRM, dashboards, drafts) + n8n (Clay API sync for contact enrichment, Calendar/Gmail for interaction tracking)
 
 **Key Integration Points:**
-- Clay API for CRM operations
-- Google Calendar API for meeting detection
-- Gmail API for correspondence tracking
+- Clay API for CRM operations (via n8n bridge)
+- Google Calendar API for meeting detection (via n8n bridge)
+- Gmail API for correspondence tracking (via n8n bridge)
 - Apple Contacts export (periodic sync via iCloud or manual export)
-- Notion API for dashboard and drafts
-- Twilio for SMS alerts
+- Twilio for SMS alerts (via n8n bridge)
 
 **Clay Configuration:**
 - Custom fields for: Tier, Last Contact Date, Contact Source, Relationship Notes

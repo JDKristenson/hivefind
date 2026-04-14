@@ -398,6 +398,25 @@ Clara is the **frontline of customer experience**. Her interactions directly imp
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** n8n-Primary
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily inbox scan, weekly pattern digest) + Event-driven (new customer inquiry received)
+- Databases (Read): Customer DB, Order DB (via Franklin), Memory Entries
+- Databases (Write): Customer DB, Activity Log
+- Agent Instructions: Notion stores ticket history, customer profiles, and resolution patterns. All escalations, FAQ updates, and pattern analysis are tracked in Notion.
+- Native Integrations Used: None
+
+**External API Bridge (n8n):**
+- Tool: n8n
+- External APIs: Shopify API (order lookups, customer history, refund processing), email/chat support channels (Gmail for customer communication, social DMs via Ada)
+- Inbound to Notion: Customer inquiries, order status data, return/refund events, social media service flags from Ada
+- Outbound from Notion: Response drafts, escalation alerts to Franklin/JD, VIP flags to Eleanor, FAQ content updates
+
+---
+
 ## IMPLEMENTATION NOTES
 
 **Recommended Platform:** n8n for workflow automation; Shopify API for order operations; Gmail API for email; Notion for logging and patterns

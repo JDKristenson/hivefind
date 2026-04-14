@@ -710,9 +710,69 @@ Duration: [ms]
 
 ---
 
+## Notion Agent Configuration (April 2026)
+
+HiveFind now uses a Notion-first architecture. Most agents run as Notion AI agents, not n8n workflows. When converting specs to AGENTS.md, include a Platform Configuration section:
+
+### Platform Configuration Section
+
+```markdown
+## Platform Configuration
+
+**Tier**: Notion-Native | Hybrid | n8n-Primary
+
+**Notion Agent:**
+- Trigger: [Schedule / DB property change / Manual]
+- Databases (Read): [list]
+- Databases (Write): [list]
+- Instructions Summary: [personality + decision framework for Notion AI config]
+
+**External Bridge (Hybrid/n8n-Primary only):**
+- Tool: [n8n / Relay.app]
+- APIs: [list with purpose]
+- Data flow: [what comes in, what goes out]
+```
+
+### Tier Guidelines
+
+| Tier | Agent Examples | AGENTS.md Focus |
+|------|---------------|-----------------|
+| Notion-Native | Xavier, Clare, Aurelius, Iris, Seneca, Hamilton, Cicero, Evelyn (Memory) | Notion DB schemas, trigger configs, agent instructions |
+| Hybrid | Evelyn (EA), Eleanor, Warren, Galen, Marco, Helena, Dale | Notion setup + n8n bridge workflow for external APIs |
+| n8n-Primary | Ada, Franklin, Clara | Full n8n workflow specs + Notion state/UI schemas |
+
+### Workflow Validation by Tier
+
+**Notion-Native agents:**
+```markdown
+## Workflow Validation
+- Verify Notion automation triggers correctly on schedule/DB change
+- Confirm agent reads correct databases and writes expected output
+- Check Notion AI agent instructions produce correct personality/decisions
+```
+
+**Hybrid agents:**
+```markdown
+## Workflow Validation
+- Verify Notion agent logic runs correctly
+- Confirm n8n bridge workflow syncs external API data to Notion DB
+- Check Notion receives expected data structure from bridge
+- Verify end-to-end: external event -> n8n -> Notion -> agent decision -> output
+```
+
+**n8n-Primary agents:**
+```markdown
+## Workflow Validation
+- Verify n8n workflow executes without errors
+- Confirm Notion receives expected data structure
+- Check platform API response codes (200 OK)
+```
+
+---
+
 ## Handling Non-Coding Agents
 
-Your agents (Ada, Aurelius, etc.) are *automation* agents, not *coding* agents. Here's how to adapt:
+Your agents are *automation* agents, not *coding* agents. Here's how to adapt:
 
 ### For Automation Agents
 
@@ -722,13 +782,7 @@ Instead of:
 - Run `pnpm test` before committing
 ```
 
-Use:
-```markdown
-## Workflow Validation
-- Verify n8n workflow executes without errors
-- Confirm Notion receives expected data structure
-- Check platform API response codes (200 OK)
-```
+Use the tier-appropriate validation section above.
 
 Instead of:
 ```markdown
@@ -739,9 +793,10 @@ Instead of:
 Use:
 ```markdown
 ## Workflow Conventions
-- All n8n nodes must have descriptive names
+- All n8n nodes must have descriptive names (Tier 2/3 only)
 - Error handling required on all API calls
 - Logs must include correlation ID for tracing
+- Notion automations must write to Activity Log on completion
 ```
 
 ---
@@ -803,6 +858,7 @@ Use this checklist when converting any agent spec:
 
 ---
 
-*Version: 1.0*  
+*Version: 2.0*  
 *Created: December 2024*  
+*Updated: April 2026 (Notion-first architecture, tier system, 19 agents)*  
 *For: Hivefind Project*

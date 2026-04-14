@@ -564,6 +564,36 @@ Clare is the **connective tissue** of the agent ecosystem. She doesn't replace a
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Notion-Native
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (6:30 AM morning briefing, 6 PM evening summary, Friday weekly report)
+- Databases (Read): Activity Log, Agent Registry, all domain dashboards
+- Databases (Write): Briefing Archive
+- Agent Instructions: Communications officer. Compile agent reports into consumable briefings. Maintain JD's situational awareness.
+- Native Integrations Used: None
+
+**External API Bridge:** None (ElevenLabs/Runway are production tools, not orchestration — these would be called via n8n if needed for audio/video production)
+
+---
+
+## IMPLEMENTATION NOTES
+
+**Platform:** Notion-native agent (runs within Notion's built-in AI agent framework)
+
+**Phase 1 (Week 1):** Agent integration mapping and briefing template setup
+**Phase 2 (Week 2-3):** Calibration week with active feedback on briefing format and depth
+**Phase 3 (Month 2+):** Steady-state daily briefings, coaching workflows, cross-agent synthesis
+
+**Key Integration Point:**
+- Clare reads from all domain agent databases but does not write to them
+- Clare writes to her own Briefing Archive database
+- All synthesis is Notion-internal; external production tools (ElevenLabs, HeyGen) are downstream consumers, not orchestration dependencies
+
+---
+
 *Document Version: 1.0*
 *Created: December 2024*
 *Status: Ready for Implementation*

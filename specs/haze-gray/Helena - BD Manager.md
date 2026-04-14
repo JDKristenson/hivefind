@@ -429,6 +429,25 @@ Before Helena can fill the pipeline, she needs the foundation. Initial onboardin
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: DB property change (new lead added, stage change) + Scheduled (daily 8am scouting, Friday 3pm report)
+- Databases (Read): Pipeline DB, Eleanor's CRM, Memory Entries
+- Databases (Write): Pipeline DB, Activity Log
+- Agent Instructions: Lead qualification, pipeline management, CRM decisions. Systematic prospector who fills the funnel with qualified opportunities, not activity metrics.
+- Native Integrations Used: None
+
+**External API Bridge (n8n):**
+- Tool: n8n
+- External APIs: LinkedIn API (lead monitoring, outreach tracking, connection mapping)
+- Inbound to Notion: New lead signals, prospect profile data, engagement metrics
+- Outbound from Notion: Outreach sequences, follow-up triggers, lead status updates
+
+---
+
 ## IMPLEMENTATION NOTES
 
 **Recommended Platform:** n8n for trigger monitoring and automation; Notion for CRM and pipeline management; Clay for enrichment (optional)

@@ -397,9 +397,28 @@ Warren → Hetty:
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily balance pull at 6am, weekly letter Sundays at 9am, quarterly deep review) + DB property change (anomaly flagged, Hetty tax update received)
+- Databases (Read): Financial DB, Memory Entries
+- Databases (Write): Financial DB, Activity Log, Exception Queue
+- Agent Instructions: Chief Financial Steward. Monitor accounts, track spending against budget, audit subscriptions, review portfolio allocation, generate weekly financial letters in Warren's voice. Think in decades. Escalate principle conflicts to Aurelius.
+- Native Integrations Used: None
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n
+- External APIs: QuickBooks API (transaction data, categorization), Plaid (bank account aggregation, transaction sync)
+- Inbound to Notion: Daily account balances, categorized transactions, portfolio positions
+- Outbound from Notion: Anomaly alerts, subscription audit results, budget threshold breaches
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Platform:** n8n or Relay.app for workflow automation; Plaid for account aggregation
+**Platform:** Notion (agent logic, financial dashboard, reports, Aurelius escalation) + n8n (QuickBooks API and Plaid bank sync bridge)
 
 **Hetty Integration (Critical):**
 - Warren must be built with awareness of Hetty's reporting structure

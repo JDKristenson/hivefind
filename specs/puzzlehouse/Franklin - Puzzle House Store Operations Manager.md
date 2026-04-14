@@ -443,6 +443,37 @@ This coordination prevents Ada from promoting out-of-stock items and helps Frank
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** n8n-Primary
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (daily 7am inventory scan, daily 6pm health check, Monday compliance, Friday report)
+- Databases (Read): Inventory DB, Order DB, Vendor DB
+- Databases (Write): Inventory DB, Order DB, Activity Log, Exception Queue
+- Agent Instructions: Notion stores inventory status, order summaries, vendor tracking, and ops dashboard. All decision gates and approvals flow through Notion.
+- Native Integrations Used: None
+
+**External API Bridge (n8n):**
+- Tool: n8n
+- External APIs: Shopify Admin API (inventory levels, order data, product management, fulfillment status)
+- Inbound to Notion: Real-time inventory levels, new order events, fulfillment status updates, product catalog syncs
+- Outbound from Notion: Reorder approvals, compliance check results, vendor communication triggers
+
+---
+
+## IMPLEMENTATION NOTES
+
+**Recommended Platform:** n8n (self-hosted) or Relay.app
+
+**Phase 1 (Week 1):** Connect Shopify API, set up Notion databases, configure Gmail integration
+
+**Phase 2 (Week 2):** Enable daily inventory scan, thank-you notes, invoice parsing, compliance workflows
+
+**Phase 3 (Week 3+):** Calibrate thresholds, tune templates, establish ongoing review cadence
+
+---
+
 *Document Version: 1.0*
 *Created: December 2024*
 *Status: Ready for Implementation*

@@ -345,13 +345,32 @@ Before Hetty can optimize, she needs infrastructure. Initial onboarding involves
 
 ---
 
+## PLATFORM CONFIGURATION
+
+**Deployment Tier:** Hybrid
+
+**Notion Agent Setup:**
+- Trigger: Scheduled (weekly reconciliation Sundays at 8am, quarterly tax position 30 days before deadline) + DB property change (new transaction logged, receipt captured)
+- Databases (Read): Financial DB (Warren's), Tax DB
+- Databases (Write): Tax DB, Activity Log
+- Agent Instructions: Tax Strategist. Capture receipts, categorize expenses across three entities (Personal, Haze Gray, Corner Piece), flag entity misallocations, surface deduction opportunities, prepare quarterly tax reports and year-end accountant package. Report to Warren.
+- Native Integrations Used: None
+
+**External API Bridge (if Hybrid):**
+- Tool: n8n (via Warren's bridge — Hetty does not need her own)
+- External APIs: QuickBooks API (transaction categorization, receipt logging, entity allocation)
+- Inbound to Notion: Categorized transactions, receipt data, bank feed reconciliation
+- Outbound from Notion: Entity reallocation recommendations, quarterly tax position reports
+
+---
+
 ## IMPLEMENTATION NOTES
 
-**Recommended Stack:**
+**Platform:** Notion (agent logic, tax dashboard, recommendation log, Aurelius integration) + n8n (QuickBooks API bridge shared with Warren)
+
+**Stack:**
 - **QuickBooks Online** — Simple Start or Essentials tier ($30-60/month)
 - **Plaid** — Bank connection layer (often included in QuickBooks or n8n)
-- **n8n or Relay.app** — Workflow automation for receipt processing, alerts, reporting
-- **Notion** — Dashboard, recommendation log, Aurelius integration
 - **Gmail** — Receipt intake, alert delivery
 
 **Phase 1 (Weeks 1-2):** QuickBooks setup, bank linking, historical transaction import, chart of accounts

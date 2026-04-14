@@ -1,6 +1,6 @@
 # HIVEFIND — AGENT ROSTER
 
-## Official Roster: 18 Agents
+## Official Roster: 19 Agents
 
 | Agent | Named For | Historical Significance | Title | Domain |
 |-------|-----------|------------------------|-------|--------|
@@ -9,7 +9,8 @@
 | Clare | Clare Boothe Luce | Playwright, journalist, U.S. Congresswoman, and Ambassador to Italy; first American woman appointed to a major ambassadorship | Communications Officer | Briefings, coaching |
 | Aurelius | Marcus Aurelius | Roman Emperor (161–180 AD) and Stoic philosopher; authored *Meditations* while leading military campaigns | Keeper of the Charter | Accountability |
 | **PERSONAL STAFF** |||||
-| Evelyn | Evelyn Lincoln | Personal secretary to President John F. Kennedy for 12 years; known for unwavering discretion and meticulous organization | Executive Assistant | Email, calendar |
+| Evelyn (EA) | Evelyn Lincoln | Personal secretary to President John F. Kennedy for 12 years; known for unwavering discretion and meticulous organization | Executive Assistant | Email, calendar |
+| Evelyn (Memory) | Evelyn Lincoln | Same namesake. This Evelyn owns the collective memory layer — curating, consolidating, and serving institutional knowledge so the fleet gets smarter over time. | Memory Curator | Knowledge curation |
 | Eleanor | Eleanor Roosevelt | First Lady, diplomat, and activist; maintained relationships across politics, labor, civil rights, and arts throughout her life | Relationship Steward | CRM, network |
 | Warren | Warren Buffett | Chairman of Berkshire Hathaway; built fortune through patient value investing and long-term compounding | Chief Financial Steward | Finance |
 | Hetty | Hetty Green | "The Witch of Wall Street"; amassed fortune of $100M+ (early 1900s) through shrewd investing and legendary frugality | Tax Strategist | Tax optimization |
@@ -37,8 +38,9 @@
 - **Clare** — Communications Officer — Briefings and delivery coaching  
 - **Aurelius** — Keeper of the Charter — Philosophical accountability
 
-### Personal Staff (9)
-- **Evelyn** — Executive Assistant — Email triage, calendar, scheduling
+### Personal Staff (10)
+- **Evelyn (EA)** — Executive Assistant — Email triage, calendar, scheduling
+- **Evelyn (Memory)** — Memory Curator — Knowledge curation, consolidation, context serving
 - **Eleanor** — Relationship Steward — CRM, network cultivation
 - **Warren** — Chief Financial Steward — Finance, investments, projections
 - **Hetty** — Tax Strategist — Tax optimization (reports to Warren)
@@ -76,10 +78,11 @@
  PERSONAL    HAZE GRAY    PUZZLE     │                   │
   STAFF      CONSULT      HOUSE      │                   │
     │            │            │      │                   │
-    ├─Evelyn     ├─Helena     ├─Ada  │ (receives         │ (receives
-    ├─Eleanor    ├─Cicero     ├─Franklin  escalations    │  agent
-    ├─Warren─┐   ├─Dale       └─Clara     from all)      │  reports)
-    │   └─Hetty  └─Hamilton                              │
+    ├─Evelyn(EA) ├─Helena     ├─Ada  │ (receives         │ (receives
+    ├─Evelyn(Mem)├─Cicero     ├─Franklin  escalations    │  agent
+    ├─Eleanor    ├─Dale       └─Clara     from all)      │  reports)
+    ├─Warren─┐   └─Hamilton                              │
+    │   └─Hetty                                          │
     ├─Galen                                              │
     ├─Martha                                             │
     ├─Marco                                              │
@@ -98,11 +101,13 @@
 | Helena → Cicero | Helena qualifies leads; Cicero pitches them |
 | Clara → Franklin | Clara handles customers; Franklin handles operations |
 | Ada ↔ Franklin | Ada promotes products; Franklin manages inventory |
+| Evelyn (EA) <-> Evelyn (Memory) | EA queries Memory for context; Memory captures corrections from EA's decisions |
+| All -> Evelyn (Memory) | All agents submit memories after tasks and query before decisions |
 | All → Aurelius | All agents can escalate charter-relevant patterns |
 | All → Xavier | Xavier monitors all agent health and performance |
 
 ---
 
-*Document Version: 1.0*
-*Created: December 2024*
+*Document Version: 2.0*
+*Updated: April 2026*
 *Status: CANONICAL — Locked*

@@ -19,7 +19,8 @@ flowchart TB
     end
 
     subgraph Personal["Personal Staff"]
-        Evelyn["Evelyn<br/>Exec Assistant"]
+        Evelyn["Evelyn (EA)<br/>Exec Assistant"]
+        Evelyn_Mem["Evelyn (Memory)<br/>Memory Curator"]
         Eleanor["Eleanor<br/>Relationship Steward"]
         Warren["Warren<br/>Finance"]
         Hetty["Hetty<br/>Tax"]
@@ -89,7 +90,8 @@ flowchart TB
     JD --> Aurelius["Aurelius"]
     JD --> Clare["Clare"]
 
-    Xavier --> Evelyn["Evelyn"]
+    Xavier --> Evelyn["Evelyn (EA)"]
+    Xavier --> Evelyn_Mem["Evelyn (Memory)"]
     Xavier --> Eleanor["Eleanor"]
     Xavier --> Warren["Warren"]
     Xavier --> Galen["Galen"]
@@ -123,7 +125,8 @@ flowchart LR
     end
 
     subgraph Agents["Agent Processing"]
-        Evelyn["Evelyn"]
+        Evelyn["Evelyn (EA)"]
+        Evelyn_Mem["Evelyn (Memory)"]
         Ada["Ada"]
         Franklin["Franklin"]
         Warren["Warren"]
@@ -150,6 +153,11 @@ flowchart LR
     Financial --> Warren
 
     Evelyn --> Xavier
+    Evelyn_Mem --> Evelyn
+    Evelyn_Mem --> Ada
+    Evelyn_Mem --> Franklin
+    Evelyn_Mem --> Warren
+    Evelyn_Mem --> Dale
     Ada --> Xavier
     Franklin --> Xavier
     Warren --> Xavier
@@ -181,7 +189,8 @@ flowchart TB
 
     subgraph Personal["👤 Personal Staff"]
         direction TB
-        Evelyn["Evelyn - EA"]
+        Evelyn["Evelyn (EA) - EA"]
+        EvelynMem["Evelyn (Memory) - Knowledge"]
         Eleanor["Eleanor - CRM"]
         Warren["Warren - Finance"]
         Hetty["Hetty - Tax"]

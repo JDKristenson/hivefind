@@ -156,9 +156,26 @@ Structure each responsibility as: **WHEN** [trigger] → **WHAT** [action] → *
 
 ---
 
-## IMPLEMENTATION NOTES
+## PLATFORM CONFIGURATION
 
-**Platform:** [n8n / Relay.app / Other]
+**Deployment Tier:** [Notion-Native / Hybrid / n8n-Primary]
+
+**Notion Agent Setup:**
+- Trigger: [Schedule / DB property change / Manual]
+- Databases (Read): [list of Notion DBs this agent reads from]
+- Databases (Write): [list of Notion DBs this agent writes to]
+- Agent Instructions: [summary of personality + decision framework for Notion AI agent config]
+- Native Integrations Used: [Google Workspace, Slack, etc. — only if Notion connects natively]
+
+**External API Bridge (if Hybrid or n8n-Primary):**
+- Tool: [n8n / Relay.app / None]
+- External APIs: [list with purpose, e.g., "Oura Ring API — daily sleep/readiness scores"]
+- Inbound to Notion: [what data flows in, which DB receives it]
+- Outbound from Notion: [what triggers or data flows out to external systems]
+
+---
+
+## IMPLEMENTATION NOTES
 
 **Phased Rollout:**
 - Phase 1: [Scope and timeline]
