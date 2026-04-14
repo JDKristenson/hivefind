@@ -2,7 +2,7 @@
   "features": [
     {
       "id": 1,
-      "category": "phase0-recovery",
+      "category": "fallback-infra",
       "description": "Auth middleware: API key validation on all embed service endpoints",
       "steps": [
         "Add API key middleware to FastAPI app (X-API-Key header)",
@@ -15,7 +15,7 @@
     },
     {
       "id": 2,
-      "category": "phase0-recovery",
+      "category": "fallback-infra",
       "description": "Rate limiting: per-IP request throttling on embed service",
       "steps": [
         "Add slowapi or similar rate limiter",
@@ -27,7 +27,7 @@
     },
     {
       "id": 3,
-      "category": "phase0-recovery",
+      "category": "fallback-infra",
       "description": "Request logging: structured access logs with IP, endpoint, status",
       "steps": [
         "Add middleware logging each request (IP, path, status, latency)",
@@ -38,7 +38,7 @@
     },
     {
       "id": 4,
-      "category": "phase0-recovery",
+      "category": "fallback-infra",
       "description": "Embed service starts on localhost and passes health check",
       "steps": [
         "Activate venv, run uvicorn",
@@ -50,7 +50,7 @@
     },
     {
       "id": 5,
-      "category": "phase0-recovery",
+      "category": "fallback-infra",
       "description": "Pinecone connectivity: verify index accessible and has existing data",
       "steps": [
         "Query hivefind-memory-v2 index stats",
@@ -61,263 +61,437 @@
     },
     {
       "id": 6,
-      "category": "phase0-recovery",
-      "description": "ngrok tunnel with auth: re-expose embed service securely",
+      "category": "fallback-infra",
+      "description": "Embed service test suite: 80%+ coverage",
       "steps": [
-        "Start ngrok tunnel to localhost:8766",
-        "Verify unauthenticated request to public URL returns 401",
-        "Verify authenticated request (with API key header) returns 200",
-        "Test from external network (curl from different context)"
+        "Verify all existing tests pass (auth, rate limit, logging, endpoints)",
+        "Run pytest -v, confirm 80%+ coverage",
+        "Fix any regressions from architecture refactor"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 7,
-      "category": "phase0-recovery",
-      "description": "Launchd daemons: re-enable embed + ngrok as managed services",
+      "category": "fallback-infra",
+      "description": "Architecture refactor: Notion-first docs and specs",
       "steps": [
-        "Update plist files with new config (auth-enabled)",
-        "Load daemons via launchctl",
-        "Verify both services survive reboot simulation (unload/load)",
-        "Verify crash-loop protection (no KeepAlive without backoff)"
+        "Rewrite SYSTEM_ARCHITECTURE.md (Notion-first, 3 tiers)",
+        "Rewrite ARCHITECTURE.md (19 agents, updated tech stack)",
+        "Rewrite MEMORY_ARCHITECTURE.md (Notion-native memory, Pinecone fallback)",
+        "Rewrite BUILD_PLAN.md (9 phases, Notion-first sequence)",
+        "Add PLATFORM CONFIGURATION to all 20 agent specs",
+        "Create Evelyn Memory Curator spec",
+        "Update Agent_Registry.csv, AGENT_ROSTER.md, ORG_CHART.md, README.md"
       ],
-      "passes": false
-    },
-    {
-      "id": 8,
-      "category": "phase0-recovery",
-      "description": "Test suite: unit + integration tests for embed service",
-      "steps": [
-        "Write tests for auth middleware (valid key, invalid key, missing key)",
-        "Write tests for rate limiting",
-        "Write tests for embed endpoints (text, file, multimodal)",
-        "Write tests for ingest and query endpoints",
-        "Run pytest -v, all pass with 80%+ coverage"
-      ],
-      "passes": false
-    },
-    {
-      "id": 9,
-      "category": "phase0-recovery",
-      "description": "n8n workflow update: add API key header to all HTTP requests hitting embed service",
-      "steps": [
-        "Update Evelyn_01_MemoryIngestion webhook to include X-API-Key",
-        "Update Evelyn_02_MemoryQuery webhook to include X-API-Key",
-        "Update EmailToNotion_InboxProcessor HTTP nodes",
-        "Test each workflow end-to-end with authenticated requests"
-      ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 10,
-      "category": "phase1-evelyn",
-      "description": "Notion cleanup: archive ~80 empty entries from failed workflow iterations",
+      "category": "phase0-notion",
+      "description": "Create Hivefind HQ Notion workspace structure",
       "steps": [
-        "Query Email Inbox DB for entries with empty Subject/From",
-        "Archive or delete empty entries via Notion API",
-        "Verify only valid entries remain (should be 2)"
+        "Create top-level Hivefind HQ workspace page",
+        "Create Command Dashboard page with sections for briefing, escalations, health",
+        "Create Agent Configurations section for Notion AI agent definitions",
+        "Create Documentation section linking to repo docs"
       ],
       "passes": false
     },
     {
       "id": 11,
-      "category": "phase1-evelyn",
-      "description": "Calendar sync: activate CalendarToNotion workflow in n8n",
+      "category": "phase0-notion",
+      "description": "Create core operational databases in Notion",
       "steps": [
-        "Load CalendarToNotion_EventSync workflow into n8n cloud",
-        "Configure Google Calendar credential",
-        "Set 15-minute sync interval",
-        "Create a test calendar event",
-        "Verify event appears in Notion Calendar Events DB"
+        "Create Agent Registry DB (name, title, domain, status, platform tier, health score)",
+        "Create Activity Log DB (agent, action, timestamp, status, duration, details)",
+        "Create Exception Queue DB (agent, severity, description, status, escalated_to, resolution)",
+        "Create Exception Types DB (type, default_severity, default_escalation, applies_to)",
+        "Configure relations between Agent Registry and Activity Log/Exception Queue",
+        "Populate Agent Registry with all 19 agents (status: planned)"
       ],
       "passes": false
     },
     {
       "id": 12,
-      "category": "phase1-evelyn",
-      "description": "Attendee extraction: parse Google Calendar attendee list into Notion",
+      "category": "phase0-notion",
+      "description": "Create memory databases in Notion",
       "steps": [
-        "Add Code node to extract attendee name, email, responseStatus",
-        "Store attendee details in Calendar Events DB properties",
-        "Test with multi-attendee event",
-        "Verify attendee data populates correctly"
+        "Create Memory Entries DB (type, agent, domain, confidence, tags, entity_refs, modality, privacy_level, status)",
+        "Create Memory Review Queue DB (entry ref, review type, status, reviewer notes)",
+        "Create Explicit Preferences DB (category, preference, source, confidence, last_validated)",
+        "Create Business Rules DB (domain, rule, rationale, exceptions, owner_agent)",
+        "Create Entity Directory DB (name, type, organization, key_facts, relationship_tier, last_contact)",
+        "Configure relations: Memory Entries -> Agent Registry, Entity Directory"
       ],
       "passes": false
     },
     {
       "id": 13,
-      "category": "phase1-evelyn",
-      "description": "Email ingestion end-to-end: label email, verify it flows through to Notion + Pinecone",
+      "category": "phase0-notion",
+      "description": "Create domain-specific databases in Notion",
       "steps": [
-        "Label a real email with process-with-ai",
-        "Wait for 5-min cycle to pick it up",
-        "Verify entry in Notion Email Inbox DB",
-        "Verify embedding stored in Pinecone (query by email subject)",
-        "Verify labels updated (hivefind-processed added, process-with-ai removed)"
+        "Create Daily Briefings DB (date, sections, delivery_status)",
+        "Create CRM Contacts DB (name, company, tier, last_touch, next_action)",
+        "Create Financial Transactions DB (date, amount, category, source)",
+        "Create Health Log DB (date, metric, value, source, trend)",
+        "Create Travel Plans DB (trip, dates, status, bookings)",
+        "Create Content Calendar DB (platform, topic, status, publish_date)",
+        "Create Proposals Pipeline DB (client, title, stage, deadline, assigned_agent)",
+        "Create Learning Queue DB (topic, source, priority, status)",
+        "Create Product Catalog DB (SKU, title, platform, status, inventory)",
+        "Create Support Tickets DB (customer, issue, priority, status, resolution)"
       ],
       "passes": false
     },
     {
       "id": 14,
-      "category": "phase1-evelyn",
-      "description": "Memory query: ask a question, get relevant email context back",
+      "category": "phase0-notion",
+      "description": "Configure Notion views and dashboards",
       "steps": [
-        "POST to /query with a natural language question",
-        "Get back ranked matches from Pinecone",
-        "Verify results include metadata (agent, domain, timestamps)",
-        "Verify semantic relevance (query about X returns emails about X)"
+        "Agent Dashboard: board view grouped by domain, filtered by status",
+        "Exception Board: kanban by status (Open -> In Progress -> Resolved)",
+        "Memory Health: table view with confidence histogram, decay alerts",
+        "Activity Feed: timeline view of recent agent actions",
+        "Test: create sample Activity Log entry, verify it appears in all relevant views"
       ],
       "passes": false
     },
     {
       "id": 15,
-      "category": "phase1-evelyn",
-      "description": "Query/response workflow: user question -> memory lookup -> LLM summary",
+      "category": "phase0-notion",
+      "description": "Set up Notion AI agent infrastructure and test automation",
       "steps": [
-        "Create n8n workflow: webhook input -> embed query -> Pinecone search -> Claude API summarize",
-        "Include Notion explicit preferences in context",
-        "Test with real question about stored emails",
-        "Verify response is coherent and cites source emails"
+        "Configure Notion automations (DB triggers, scheduled runs)",
+        "Test: DB property change triggers automation",
+        "Test: scheduled automation fires on time",
+        "End-to-end: create Activity Log entry -> trigger automation -> verify Exception Queue routing",
+        "Document database schemas in docs/DATABASE_SCHEMAS.md"
       ],
       "passes": false
     },
     {
       "id": 16,
-      "category": "phase1-evelyn",
-      "description": "Calendar prep workflow: pre-meeting attendee research brief",
+      "category": "phase0-notion",
+      "description": "Seed Notion with existing data from prior HiveFind work",
       "steps": [
-        "Create n8n workflow: triggered 1hr before meetings",
-        "Look up attendees in memory (past interactions, preferences)",
-        "Generate brief with attendee context + meeting agenda",
-        "Deliver to Notion or email"
-      ],
-      "passes": false
-    },
-    {
-      "id": 17,
-      "category": "phase1-evelyn",
-      "description": "Daily summary workflow: evening digest of calendar + pending items",
-      "steps": [
-        "Create n8n workflow: triggered at 8 PM ET daily",
-        "Aggregate tomorrow's calendar events",
-        "List pending/unprocessed items from email inbox",
-        "Generate summary via Claude API",
-        "Deliver to Notion daily log"
-      ],
-      "passes": false
-    },
-    {
-      "id": 18,
-      "category": "phase1-evelyn",
-      "description": "Memory review queue: user can approve/reject memories before Pinecone storage",
-      "steps": [
-        "Create Notion Memory Review Queue DB (if not exists)",
-        "Route new memories to queue instead of direct Pinecone insert",
-        "Add approve/reject status field",
-        "On approve: embed and store to Pinecone",
-        "On reject: archive in Notion, skip Pinecone"
-      ],
-      "passes": false
-    },
-    {
-      "id": 19,
-      "category": "phase1-evelyn",
-      "description": "Preference capture: explicit user preferences stored in Notion",
-      "steps": [
-        "Create Explicit Preferences DB in Notion",
-        "Seed with known preferences (flight times, meeting limits, etc.)",
-        "Wire preferences into query/response workflow context",
-        "Test: query where preference should influence response"
+        "Import existing Explicit Preferences from prior sessions",
+        "Import Entity Directory entries from Eleanor CRM data",
+        "Migrate existing Memory Entries from Pinecone metadata to Notion DB",
+        "Verify migrated data accessible via Notion search"
       ],
       "passes": false
     },
     {
       "id": 20,
-      "category": "phase2-runway",
-      "description": "Session chaining: Runway calls >5 minutes auto-chain to new sessions",
+      "category": "phase1-coordination",
+      "description": "Xavier: daily fleet health check as Notion AI agent",
       "steps": [
-        "Detect session approaching 5-min limit",
-        "Auto-initiate new session with context carryover",
-        "User experience is seamless (no visible break)",
-        "Test with 8-minute conversation"
+        "Configure Xavier as Notion AI agent",
+        "Set up 6 AM daily trigger",
+        "Agent reads Agent Registry, checks Last Run timestamps",
+        "Agent writes health status to Activity Log",
+        "Agent creates Exception Queue entry for any agent offline >24h",
+        "Test: mark an agent as stale, verify Xavier flags it"
       ],
       "passes": false
     },
     {
       "id": 21,
-      "category": "phase2-runway",
-      "description": "Recording: save Runway video call recordings to Notion",
+      "category": "phase1-coordination",
+      "description": "Xavier: exception routing and escalation",
       "steps": [
-        "Capture session recording from Runway SDK",
-        "Upload to cloud storage (S3 or GCS)",
-        "Create Notion entry with recording link, duration, transcript summary",
-        "Test: complete a call, verify recording appears in Notion"
+        "Configure Xavier to monitor Exception Queue for new entries",
+        "Agent evaluates severity and routes to correct handler",
+        "Agent updates Escalated To field",
+        "Test: create Critical exception, verify Xavier escalates to JD"
       ],
       "passes": false
     },
     {
       "id": 22,
-      "category": "phase2-runway",
-      "description": "Mobile responsive: Runway agents app works on phone screens",
+      "category": "phase1-coordination",
+      "description": "Clare: morning briefing compilation",
       "steps": [
-        "Add responsive CSS/layout to runwayagents Next.js app",
-        "Test on iPhone viewport (375px)",
-        "Verify video call controls accessible on mobile",
-        "Verify text chat readable on small screens"
+        "Configure Clare as Notion AI agent",
+        "Set up 6:30 AM daily trigger",
+        "Agent reads Activity Log, Exception Queue, agent reports",
+        "Agent compiles structured briefing to Daily Briefings DB",
+        "Test: seed Activity Log with sample data, verify briefing output"
       ],
       "passes": false
     },
     {
       "id": 23,
-      "category": "phase2-runway",
-      "description": "HeyGen retirement: remove HeyGen dependencies, fully switch to Runway",
+      "category": "phase1-coordination",
+      "description": "Aurelius: daily accountability review",
       "steps": [
-        "Identify all HeyGen references in codebase",
-        "Remove HeyGen API keys and configs",
-        "Update persona assets to Runway-only",
-        "Verify no HeyGen calls remain"
+        "Configure Aurelius as Notion AI agent",
+        "Set up 5 PM daily trigger",
+        "Agent reviews day's Activity Log against stated priorities",
+        "Agent writes reflection entry to Activity Log",
+        "Agent flags charter-relevant patterns to Exception Queue",
+        "Test: create conflicting priorities, verify Aurelius surfaces them"
       ],
       "passes": false
     },
     {
-      "id": 24,
-      "category": "phase2-runway",
-      "description": "Agent roster expansion: activate remaining 18 agents in Runway",
+      "id": 30,
+      "category": "phase2-knowledge",
+      "description": "Iris: weekly knowledge synthesis as Notion AI agent",
       "steps": [
-        "Create Runway Characters for each agent using spec personality",
-        "Configure voice profiles per agent",
-        "Add to agent registry in runwayagents app",
-        "Test 3 representative agents (one per domain cluster)"
+        "Configure Iris as Notion AI agent",
+        "Set up weekly trigger (Sunday)",
+        "Agent reads all Notion DBs for new knowledge entries",
+        "Agent synthesizes cross-domain insights to Knowledge Base DB",
+        "Test: seed data across 3 domains, verify Iris connects them"
       ],
       "passes": false
     },
     {
-      "id": 25,
-      "category": "phase1-evelyn",
-      "description": "Correction processing: capture human overrides as high-value memories",
+      "id": 31,
+      "category": "phase2-knowledge",
+      "description": "Evelyn (Memory): memory ingestion pipeline",
       "steps": [
-        "Create n8n workflow triggered when user edits/corrects an agent output",
-        "Extract correction context (what was wrong, what's right)",
-        "Store as correction-type memory with 0.95 confidence",
-        "Verify correction influences future queries"
+        "Configure Evelyn Memory as Notion AI agent",
+        "Agent monitors Memory Entries DB for new submissions",
+        "Agent validates schema (required fields, confidence range)",
+        "Agent tags, classifies, and checks for duplicates",
+        "Agent detects contradictions with existing memories",
+        "Test: submit memory payload, verify it's stored and tagged"
       ],
       "passes": false
     },
     {
-      "id": 26,
-      "category": "phase1-evelyn",
-      "description": "Weekly consolidation: Evelyn synthesizes patterns from week's memories",
+      "id": 32,
+      "category": "phase2-knowledge",
+      "description": "Evelyn (Memory): context serving and pre-action briefs",
       "steps": [
-        "Create n8n workflow: triggered Sunday 11 PM",
-        "Query all memories from past 7 days",
-        "Use Claude API to identify patterns and trends",
-        "Generate consolidation report to Notion",
-        "Promote validated patterns to explicit knowledge"
+        "Agent responds to context queries from other agents",
+        "Agent searches Memory Entries + Explicit Preferences (semantic + structured)",
+        "Agent returns ranked results with confidence scores and source citations",
+        "Test: query 'travel preferences', verify relevant memories returned"
       ],
       "passes": false
     },
     {
-      "id": 27,
+      "id": 33,
+      "category": "phase2-knowledge",
+      "description": "Evelyn (Memory): weekly consolidation and decay",
+      "steps": [
+        "Set up Sunday 11 PM weekly trigger",
+        "Agent analyzes week's memories for pattern candidates",
+        "Agent applies decay rules to aging memories",
+        "Agent generates consolidation report to Daily Briefings DB",
+        "Test: create memories at varying ages, verify decay applied correctly"
+      ],
+      "passes": false
+    },
+    {
+      "id": 40,
+      "category": "phase3-native",
+      "description": "Seneca: curriculum tracking and focus protection",
+      "steps": [
+        "Configure Seneca as Notion AI agent",
+        "Set up weekly curriculum review trigger",
+        "Agent reads Learning Queue, Calendar, Memory Entries",
+        "Agent recommends focus areas and protects learning time",
+        "Test: add learning items, verify Seneca prioritizes them"
+      ],
+      "passes": false
+    },
+    {
+      "id": 41,
+      "category": "phase3-native",
+      "description": "Hamilton: client engagement tracking and commitment ledger",
+      "steps": [
+        "Configure Hamilton as Notion AI agent",
+        "Set up daily prioritization trigger",
+        "Agent reads Client DB, Commitment Ledger, Activity Log",
+        "Agent flags overdue commitments and upcoming deadlines",
+        "Test: create commitment with past due date, verify Hamilton flags it"
+      ],
+      "passes": false
+    },
+    {
+      "id": 42,
+      "category": "phase3-native",
+      "description": "Cicero: proposal drafting from pipeline data",
+      "steps": [
+        "Configure Cicero as Notion AI agent",
+        "Agent triggered by new lead in Proposals Pipeline (DB property change)",
+        "Agent reads lead dossier, Memory Entries, Client DB",
+        "Agent drafts proposal outline to Proposals Pipeline DB",
+        "Test: create pipeline entry, verify Cicero generates draft"
+      ],
+      "passes": false
+    },
+    {
+      "id": 50,
+      "category": "phase4-hybrid",
+      "description": "Evelyn (EA): email triage via Notion + Google Workspace",
+      "steps": [
+        "Configure Evelyn EA as Notion AI agent with Google Workspace integration",
+        "Test: verify Notion can read Gmail inbox natively",
+        "Agent categorizes emails (urgent, action, FYI, delegate, archive)",
+        "Agent drafts responses in JD voice for routine matters",
+        "If Notion GWS integration insufficient: set up n8n Gmail bridge",
+        "Test: send test email, verify Evelyn triages and categorizes it"
+      ],
+      "passes": false
+    },
+    {
+      "id": 51,
+      "category": "phase4-hybrid",
+      "description": "Evelyn (EA): calendar management and meeting prep",
+      "steps": [
+        "Agent reads Google Calendar via Notion native integration",
+        "Agent detects conflicts and proposes resolutions",
+        "Agent prepares meeting briefs 24h before meetings",
+        "Agent captures post-meeting action items",
+        "Test: create conflicting calendar events, verify Evelyn flags them"
+      ],
+      "passes": false
+    },
+    {
+      "id": 52,
+      "category": "phase4-hybrid",
+      "description": "Martha: household ops with Google Calendar integration",
+      "steps": [
+        "Configure Martha as Notion AI agent",
+        "Connect Google Calendar (native) for family scheduling",
+        "Agent tracks household tasks, maintenance schedules",
+        "Test: create household task, verify Martha schedules and tracks it"
+      ],
+      "passes": false
+    },
+    {
+      "id": 60,
+      "category": "phase5-crm-finance",
+      "description": "Eleanor: CRM and relationship tracking with Clay bridge",
+      "steps": [
+        "Configure Eleanor as Notion AI agent",
+        "Set up n8n bridge for Clay API contact enrichment",
+        "Agent reads Entity Directory, Memory Entries",
+        "Agent recommends relationship maintenance actions",
+        "Test: add contact, verify Eleanor enriches and tracks it"
+      ],
+      "passes": false
+    },
+    {
+      "id": 61,
+      "category": "phase5-crm-finance",
+      "description": "Warren: financial analysis with QuickBooks bridge",
+      "steps": [
+        "Configure Warren as Notion AI agent",
+        "Set up n8n bridge for QuickBooks API + Plaid bank sync",
+        "Agent reads Financial Transactions DB, generates reports",
+        "Agent alerts on unusual spending or cash flow issues",
+        "Test: sync test transactions, verify Warren categorizes and alerts"
+      ],
+      "passes": false
+    },
+    {
+      "id": 62,
+      "category": "phase5-crm-finance",
+      "description": "Hetty: tax categorization using Warren's bridge",
+      "steps": [
+        "Configure Hetty as Notion AI agent",
+        "Agent reads Financial DB (Warren's), applies tax categories",
+        "Agent tracks deductions and estimates quarterly liability",
+        "Test: categorize sample transactions, verify tax treatment"
+      ],
+      "passes": false
+    },
+    {
+      "id": 70,
+      "category": "phase6-health-travel",
+      "description": "Galen: health analysis with Oura Ring bridge",
+      "steps": [
+        "Configure Galen as Notion AI agent",
+        "Set up n8n bridge for Oura Ring API (sleep, readiness, HRV)",
+        "Agent reads Health Log, correlates with Calendar",
+        "Agent generates recovery recommendations",
+        "Test: sync Oura data, verify Galen produces health brief"
+      ],
+      "passes": false
+    },
+    {
+      "id": 71,
+      "category": "phase6-health-travel",
+      "description": "Marco: travel planning with booking API bridge",
+      "steps": [
+        "Configure Marco as Notion AI agent",
+        "Set up n8n bridge for travel booking + loyalty APIs",
+        "Agent reads Travel Plans DB, Memory Entries (preferences)",
+        "Agent assembles itineraries and optimizes loyalty programs",
+        "Test: create travel request, verify Marco builds itinerary"
+      ],
+      "passes": false
+    },
+    {
+      "id": 80,
+      "category": "phase7-business",
+      "description": "Helena: lead qualification with LinkedIn bridge",
+      "steps": [
+        "Configure Helena as Notion AI agent",
+        "Set up n8n bridge for LinkedIn API monitoring",
+        "Agent reads Pipeline DB, CRM, Memory Entries",
+        "Agent qualifies leads and recommends outreach",
+        "Test: add prospect, verify Helena qualifies against ICP"
+      ],
+      "passes": false
+    },
+    {
+      "id": 81,
+      "category": "phase7-business",
+      "description": "Dale: content strategy with LinkedIn posting bridge",
+      "steps": [
+        "Configure Dale as Notion AI agent",
+        "Set up n8n bridge for LinkedIn API posting + analytics",
+        "Agent reads Content Calendar, Pipeline DB",
+        "Agent drafts content aligned to business development goals",
+        "Test: create content calendar entry, verify Dale drafts post"
+      ],
+      "passes": false
+    },
+    {
+      "id": 90,
+      "category": "phase8-api-heavy",
+      "description": "Ada: social media management via n8n workflows",
+      "steps": [
+        "Build n8n workflows for multi-platform posting (Meta, TikTok, LinkedIn, Pinterest)",
+        "Configure Notion Content Calendar DB as Ada's state store",
+        "Build trend scanning and performance reporting workflows",
+        "Test: publish test post to staging, verify metrics logged to Notion"
+      ],
+      "passes": false
+    },
+    {
+      "id": 91,
+      "category": "phase8-api-heavy",
+      "description": "Franklin: Shopify store operations via n8n workflows",
+      "steps": [
+        "Build n8n workflows for Shopify inventory, orders, product management",
+        "Configure Notion Inventory/Order/Vendor DBs as Franklin's state",
+        "Build exception routing for low stock, order issues",
+        "Test: sync Shopify inventory, verify Notion reflects current state"
+      ],
+      "passes": false
+    },
+    {
+      "id": 92,
+      "category": "phase8-api-heavy",
+      "description": "Clara: customer service via n8n + Shopify",
+      "steps": [
+        "Build n8n workflows for support channel monitoring",
+        "Configure Notion Support Tickets DB as Clara's state",
+        "Build Shopify order lookup and return processing workflows",
+        "Test: create test ticket, verify Clara resolves with Shopify data"
+      ],
+      "passes": false
+    },
+    {
+      "id": 95,
       "category": "infrastructure",
       "description": "GCP budget monitoring: verify killswitch and alerts still active",
       "steps": [
@@ -329,16 +503,17 @@
       "passes": false
     },
     {
-      "id": 28,
+      "id": 96,
       "category": "infrastructure",
-      "description": "Documentation update: reflect current state in README and docs",
+      "description": "Cross-reference verification: all docs consistent post-refactor",
       "steps": [
-        "Update README.md tech stack (Runway replaces HeyGen)",
-        "Update MEMORY_ARCHITECTURE.md with resolved questions",
-        "Add auth middleware to SYSTEM_ARCHITECTURE.md",
-        "Verify all file paths in docs match actual structure"
+        "Verify all 19 agents appear in Agent Registry, Agent Roster, Org Chart",
+        "Verify BUILD_PLAN.md phases match tier classifications in SYSTEM_ARCHITECTURE.md",
+        "Verify no stale Pinecone-as-primary references remain",
+        "Verify n8n referenced only in Tier 2/3 contexts, never as universal orchestration",
+        "Verify all spec file paths in Agent Registry resolve to actual files"
       ],
-      "passes": false
+      "passes": true
     }
   ]
 }
