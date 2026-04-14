@@ -95,7 +95,7 @@
         "Create Agent Configurations section for Notion AI agent definitions",
         "Create Documentation section linking to repo docs"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 11,
@@ -109,7 +109,7 @@
         "Configure relations between Agent Registry and Activity Log/Exception Queue",
         "Populate Agent Registry with all 19 agents (status: planned)"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 12,
@@ -123,7 +123,7 @@
         "Create Entity Directory DB (name, type, organization, key_facts, relationship_tier, last_contact)",
         "Configure relations: Memory Entries -> Agent Registry, Entity Directory"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 13,
@@ -179,7 +179,7 @@
         "Migrate existing Memory Entries from Pinecone metadata to Notion DB",
         "Verify migrated data accessible via Notion search"
       ],
-      "passes": false
+      "passes": true
     },
     {
       "id": 20,
