@@ -1,8 +1,10 @@
 # Hivefind Build Plan
 
-**Version**: 3.0
+**Version**: 3.1
 **Updated**: April 2026
-**Architecture**: Notion-first. Most agents run natively in Notion AI. n8n introduced only when external API bridges are required (Phase 4+).
+**Architecture**: Notion-first. Most agents run natively in Notion AI. n8n introduced when external API bridges are required (Phase 4+). Relay.app introduced for Preparation-pattern workflows with human approval gates.
+
+**See also**: [`RELAY_SEMINAR_ADDENDUM.md`](RELAY_SEMINAR_ADDENDUM.md) for the agent role matrix (Monitor / Researcher / Generator / Optimizer / Orchestrator), the three workflow patterns (Recurring / Preparation / Data Transfer), and tool-selection rules added 2026-04-22 from the Rundown Relay.app seminar.
 
 ---
 
