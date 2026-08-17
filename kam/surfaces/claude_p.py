@@ -69,9 +69,17 @@ def run(prompt: str, *, model: str | None = None, timeout: int = 900, cwd: str |
         cmd += ["--model", model]
     cmd.append(prompt)
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=child_env(), cwd=cwd, check=False)
+        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, env=child_env(), cwd=cwd, check=False, stdin=subprocess.DEVNULL)
     except subprocess.TimeoutExpired:
         return SurfaceResult(ok=False, error=f"claude -p timed out after {timeout}s")
+    fx = os.environ.get("KAM_FIXTURE_DIR")
+    if fx and p.stdout.strip():
+        try:
+            from pathlib import Path
+            Path(fx).mkdir(parents=True, exist_ok=True)
+            Path(fx, "claude-p.json").write_text(p.stdout)
+        except OSError:
+            pass
     if p.returncode != 0 and not p.stdout.strip():
         return SurfaceResult(ok=False, error=f"claude -p exit {p.returncode}: {p.stderr[-500:]}")
     res = parse_json_result(p.stdout)

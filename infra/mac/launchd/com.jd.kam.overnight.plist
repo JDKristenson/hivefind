@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.jd.kam.overnight</string>
+  <key>ProgramArguments</key><array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/JDKristenson/Desktop/10 BRIDGE/TEC/TEC dev-workbench/🟢 ACTIVE/hivefind-kam/infra/mac/kam_overnight_job.py</string>
+  </array>
+  <key>StartCalendarInterval</key><dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>15</integer></dict>
+  <key>StandardOutPath</key><string>/Users/JDKristenson/Library/Logs/kam/overnight-mac.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/JDKristenson/Library/Logs/kam/overnight-mac.err.log</string>
+</dict></plist>

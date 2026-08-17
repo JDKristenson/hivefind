@@ -80,8 +80,16 @@ def build_properties(schema: dict[str, dict], run: dict[str, Any]) -> dict[str, 
     if "Trigger Source" in schema and schema["Trigger Source"].get("type") == "select":
         props["Trigger Source"] = {"select": {"name": "KAM"}}
     if "Run Type" in schema and schema["Run Type"].get("type") == "select":
-        props["Run Type"] = {"select": {"name": run["task_class"]}}
+        props["Run Type"] = {"select": {"name": RUN_TYPE_MAP.get(run["task_class"], "Ad-hoc")}}
     return props
+
+
+# task_class -> existing Run Type options on 🛰️ Agent Runs (never invent new options from the mirror)
+RUN_TYPE_MAP = {
+    "glue": "Health Check", "classify": "Ad-hoc", "frontier": "Ad-hoc", "code": "Ad-hoc", "long_context": "Ad-hoc",
+    "research": "Ad-hoc", "browser": "Ad-hoc", "notion_native": "Ad-hoc", "triage": "Triage", "daily_summary": "Daily Summary",
+    "weekly_draft": "Weekly Draft",
+}
 
 
 def sync(settings: Settings, limit: int = 200) -> tuple[int, int]:

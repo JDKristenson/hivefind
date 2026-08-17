@@ -16,7 +16,7 @@ SECRET_PATTERNS = (
     re.compile(r"sk-or-v1-[A-Za-z0-9]{20,}"),                # OpenRouter
     re.compile(r"sk-ant-[A-Za-z0-9-]{20,}"),                 # Anthropic
     re.compile(r"ntn_[A-Za-z0-9]{20,}|secret_[A-Za-z0-9]{30,}"),  # Notion
-    re.compile(r"postgres(ql)?://[^:\s]+:[^@\s]+@"),          # DSN with password
+    re.compile(r"postgres(ql)?://[A-Za-z0-9_.-]+:[A-Za-z0-9%._~-]{8,}@[A-Za-z0-9.-]+"),  # DSN with a real password
     re.compile(r"eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}"),  # JWT
 )
 

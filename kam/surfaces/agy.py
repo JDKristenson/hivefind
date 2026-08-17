@@ -12,7 +12,7 @@ def run(prompt: str, *, model: str | None = None, timeout: int = 600, cwd: str |
     exe = shutil.which("agy") or "/Users/JDKristenson/.local/bin/agy"
     if not shutil.which(exe) and not exe.startswith("/"):
         return SurfaceResult(ok=False, error="agy CLI not found")
-    cmd = [exe, "--print", prompt, "--print-timeout", f"{max(60, timeout - 30)}s"]
+    cmd = [exe, "--print", prompt]
     if model:
         cmd += ["--model", model]
     try:

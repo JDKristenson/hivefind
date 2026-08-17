@@ -90,12 +90,15 @@ def _parse_env_file(path: Path) -> dict[str, str]:
 
 
 def _op_available() -> bool:
+    if os.environ.get("KAM_SKIP_OP"):  # launchd/systemd jobs: never probe 1Password (no session, can hang on XPC)
+        return False
     if not shutil.which("op") or not ENV_OP.exists():
         return False
     if os.environ.get("OP_SERVICE_ACCOUNT_TOKEN"):
         return True
     try:
-        r = subprocess.run(["op", "whoami"], capture_output=True, text=True, timeout=10, check=False)
+        r = subprocess.run(["op", "whoami"], capture_output=True, text=True, timeout=10, check=False,
+                           stdin=subprocess.DEVNULL, start_new_session=True)
         return r.returncode == 0
     except (OSError, subprocess.TimeoutExpired):
         return False

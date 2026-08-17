@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.jd.kam.canary-claude-p</string>
+  <key>ProgramArguments</key><array>
+    <string>/usr/bin/python3</string>
+    <string>/Users/JDKristenson/Desktop/10 BRIDGE/TEC/TEC dev-workbench/🟢 ACTIVE/hivefind-kam/infra/mac/kam_launchd_wrapper.py</string>
+    <string>run</string><string>--mission</string><string>TEC-agentic-os</string><string>--agent</string><string>jd</string>
+    <string>--task-class</string><string>classify</string><string>--surface</string><string>claude-p</string>
+    <string>--model</string><string>claude-fable-5</string><string>--subject</string><string>phase0 canary claude-p</string>
+    <string>Reply with the single word OK.</string>
+  </array>
+  <key>EnvironmentVariables</key><dict><key>KAM_FIXTURE_DIR</key><string>/Users/JDKristenson/Desktop/10 BRIDGE/TEC/TEC dev-workbench/🟢 ACTIVE/hivefind-kam/tests/fixtures</string></dict>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>/Users/JDKristenson/Library/Logs/kam/canary-claude-p-2.out.log</string>
+  <key>StandardErrorPath</key><string>/Users/JDKristenson/Library/Logs/kam/canary-claude-p-2.err.log</string>
+</dict></plist>

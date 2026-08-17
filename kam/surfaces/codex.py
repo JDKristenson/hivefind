@@ -58,7 +58,7 @@ def run(prompt: str, *, model: str | None = None, timeout: int = 900, cwd: str |
         cmd += ["-m", model]
     cmd.append(prompt)
     try:
-        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd, check=False)
+        p = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout, cwd=cwd, check=False, stdin=subprocess.DEVNULL)
     except subprocess.TimeoutExpired:
         return SurfaceResult(ok=False, error=f"codex exec timed out after {timeout}s")
     res = parse_jsonl(p.stdout)

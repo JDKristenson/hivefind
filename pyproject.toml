@@ -25,6 +25,7 @@ packages = ["kam"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 markers = ["integration: needs a live database or surface; skipped by default"]
 addopts = "-m 'not integration'"
 
