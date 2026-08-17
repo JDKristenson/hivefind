@@ -128,6 +128,28 @@ def cmd_mirror(a: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ledger(a: argparse.Namespace) -> int:
+    from datetime import timedelta
+
+    from .config import REPORTS_DIR
+    settings = load_settings()
+    db = _db(settings)
+    now = datetime.now(UTC)
+    rows = db.spend_by_pool(now - timedelta(days=7))
+    lines = [f"# KAM ledger, week ending {now:%Y-%m-%d} (host {settings.host})", ""]
+    for r in rows:
+        cost = "unmetered by vendor" if r["cost_usd"] is None else f"${float(r['cost_usd']):.4f} (API list-price estimate for subscription pools)"
+        lines.append(f"- {r['pool']}: {r['runs']} run(s), tokens in/out {r['tokens_in'] or 0}/{r['tokens_out'] or 0}, {cost}")
+    text = "\n".join(lines) + "\n"
+    out_dir = Path(a.out) if a.out else (REPORTS_DIR if settings.host == "mac" else Path.home() / "kam" / "reports")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    p = out_dir / f"ledger-{now:%Y-%m-%d}.md"
+    p.write_text(text)
+    print(text)
+    print(p)
+    return 0
+
+
 def cmd_jobs(a: argparse.Namespace) -> int:
     for j in jobs_mod.load_jobs():
         print(f"{j.job_id:22} {j.host:5} {j.cadence:16} grace {j.grace_minutes}m  {j.description}")
@@ -181,6 +203,7 @@ def main(argv: list[str] | None = None) -> int:
     ov = sub.add_parser("overnight"); ov.add_argument("--out"); ov.set_defaults(fn=cmd_overnight)
     mi = sub.add_parser("mirror"); mi.set_defaults(fn=cmd_mirror)
     jb = sub.add_parser("jobs"); jb.set_defaults(fn=cmd_jobs)
+    le = sub.add_parser("ledger"); le.add_argument("--out"); le.set_defaults(fn=cmd_ledger)
     ro = sub.add_parser("rotate-db-password"); ro.set_defaults(fn=cmd_rotate)
 
     a = ap.parse_args(argv)

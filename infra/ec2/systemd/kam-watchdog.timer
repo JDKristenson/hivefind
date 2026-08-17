@@ -1,0 +1,10 @@
+[Unit]
+Description=KAM kam heartbeat --check timer
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+RandomizedDelaySec=20
+
+[Install]
+WantedBy=timers.target

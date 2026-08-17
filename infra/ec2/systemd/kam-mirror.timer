@@ -1,0 +1,10 @@
+[Unit]
+Description=KAM kam mirror; heartbeat kam-mirror timer
+
+[Timer]
+OnCalendar=*:0/5
+Persistent=true
+RandomizedDelaySec=20
+
+[Install]
+WantedBy=timers.target

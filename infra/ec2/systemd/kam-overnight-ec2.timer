@@ -1,0 +1,10 @@
+[Unit]
+Description=KAM kam overnight (EC2 fallback render) timer
+
+[Timer]
+OnCalendar=*-*-* 06:20:00 America/New_York
+Persistent=true
+RandomizedDelaySec=20
+
+[Install]
+WantedBy=timers.target

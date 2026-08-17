@@ -1,0 +1,10 @@
+[Unit]
+Description=KAM kam verify --anchor timer
+
+[Timer]
+OnCalendar=*-*-* 23:55:00 America/New_York
+Persistent=true
+RandomizedDelaySec=20
+
+[Install]
+WantedBy=timers.target

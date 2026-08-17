@@ -1,0 +1,15 @@
+[Unit]
+Description=KAM kam verify --anchor
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=ec2-user
+Environment=HOME=/home/ec2-user
+Environment=PATH=/home/ec2-user/.local/bin:/usr/local/bin:/usr/bin:/bin
+Environment=KAM_HOST=ec2
+Environment=KAM_SKIP_OP=1
+WorkingDirectory=/home/ec2-user/hivefind
+ExecStart=/bin/bash -lc 'kam verify --anchor && kam heartbeat kam-verify-anchor'
+TimeoutStartSec=900

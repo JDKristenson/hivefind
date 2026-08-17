@@ -1,0 +1,10 @@
+[Unit]
+Description=KAM kam ledger (weekly) timer
+
+[Timer]
+OnCalendar=Mon *-*-* 07:30:00 America/New_York
+Persistent=true
+RandomizedDelaySec=20
+
+[Install]
+WantedBy=timers.target
