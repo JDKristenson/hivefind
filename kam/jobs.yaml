@@ -1,0 +1,10 @@
+# KAM jobs manifest (PRD v1.1 §6.12). Every scheduled job lives here; the watchdog compares this list to heartbeats.
+# cadence forms: "every 5m", "every 15m", "hourly", "daily 06:15", "weekly mon 07:30"
+jobs:
+  - { job_id: kam-mirror,        host: ec2, cadence: every 5m,        grace_minutes: 10,  description: "mirror kam.runs into Notion Agent Runs (needs NOTION_TOKEN)" }
+  - { job_id: kam-verify-anchor, host: ec2, cadence: daily 23:55,     grace_minutes: 60,  description: "kam verify --anchor; writes kam/anchors and kam.anchors" }
+  - { job_id: kam-overnight-mac, host: mac, cadence: daily 06:15,     grace_minutes: 90,  description: "kam overnight to 90 ENGINE ROOM/reports/kam (Mac primary)" }
+  - { job_id: kam-overnight-ec2, host: ec2, cadence: daily 06:20,     grace_minutes: 90,  description: "kam overnight fallback render on EC2" }
+  - { job_id: kam-watchdog,      host: ec2, cadence: every 15m,       grace_minutes: 20,  description: "kam heartbeat --check" }
+  - { job_id: kam-ledger,        host: ec2, cadence: weekly mon 07:30, grace_minutes: 120, description: "weekly spend by pool (Phase 1)" }
+  - { job_id: kam-flag-probe-n8n, host: vendor, cadence: hourly,      grace_minutes: 30,  description: "n8n stub that reads kam.flags and heartbeats (proves the kill switch on the third host)" }

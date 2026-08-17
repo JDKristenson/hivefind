@@ -1,0 +1,26 @@
+# KAM agent registry (PRD v1.1 §7.5). Authority in Phases 0-1; the Notion 🤖 Agent Registry takes over at Phase 2 step 3.
+# Surfaces: claude-p codex-exec agy openrouter manus hermes cf-browser notion-ai pplx-computer n8n
+agents:
+  jd:        { tier: human, default_surface: claude-p, allowed_surfaces: [claude-p, codex-exec, agy, openrouter, manus, hermes, cf-browser], gates: [], paused: false, bypass_allowlist: true }
+  codex:     { tier: substrate, default_surface: codex-exec, allowed_surfaces: [codex-exec], gates: [high_risk_action], stage_to: local-drafts, vault: kam-codex, github_identity: "codex-hivefind[bot]" }
+  xavier:    { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai, openrouter, claude-p], gates: [high_risk_action], mailbox: xavier@hazegray.ai, vault: kam-xavier, github_identity: "xavier-hivefind[bot]" }
+  clare:     { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, claude-p, openrouter], gates: [], mailbox: clare@hazegray.ai }
+  aurelius:  { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai, openrouter], gates: [], mailbox: aurelius@hazegray.ai }
+  evelyn-ea: { tier: 2, default_surface: claude-p, allowed_surfaces: [claude-p, openrouter], gates: [external_send], stage_to: local-drafts, mailbox: evelyn@hazegray.ai, vault: kam-evelyn }
+  evelyn-memory: { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai], gates: [] }
+  eleanor:   { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai, n8n], gates: [new_bd_contact], mailbox: eleanor@hazegray.ai }
+  warren:    { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai, n8n], gates: [], mailbox: warren@hazegray.ai }
+  hetty:     { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai], gates: [] }
+  galen:     { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, n8n], gates: [] }
+  martha:    { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, n8n], gates: [commit_to_work], mailbox: martha@hazegray.ai }
+  marco:     { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, pplx-computer], gates: [], mailbox: marco@hazegray.ai }
+  seneca:    { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai], gates: [] }
+  iris:      { tier: 1, default_surface: notion-ai, allowed_surfaces: [notion-ai, pplx-computer], gates: [] }
+  helena:    { tier: 2, default_surface: claude-p, allowed_surfaces: [claude-p, openrouter, pplx-computer, manus], gates: [external_send, new_bd_contact], stage_to: local-drafts, mailbox: helena@hazegray.ai }
+  cicero:    { tier: 2, default_surface: claude-p, allowed_surfaces: [claude-p], gates: [], mailbox: cicero@hazegray.ai }
+  dale:      { tier: 2, default_surface: claude-p, allowed_surfaces: [claude-p, openrouter], gates: [external_send], stage_to: local-drafts, mailbox: dale@hazegray.ai }
+  hamilton:  { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, claude-p], gates: [], mailbox: hamilton@hazegray.ai }
+  lyndon:    { tier: 2, default_surface: notion-ai, allowed_surfaces: [notion-ai, claude-p, openrouter], gates: [], mailbox: lyndon@hazegray.ai }
+  ada:       { tier: 3, default_surface: n8n, allowed_surfaces: [n8n, manus], gates: [external_send], stage_to: local-drafts, mailbox: ada@hazegray.ai }
+  franklin:  { tier: 3, default_surface: n8n, allowed_surfaces: [n8n], gates: [high_risk_action], mailbox: franklin@hazegray.ai }
+  clara:     { tier: 3, default_surface: n8n, allowed_surfaces: [n8n], gates: [external_send], stage_to: local-drafts, mailbox: clara@hazegray.ai }
