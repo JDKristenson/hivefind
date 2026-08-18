@@ -11,7 +11,7 @@
     <string>Reply with the single word OK.</string>
   </array>
   <key>EnvironmentVariables</key><dict><key>KAM_FIXTURE_DIR</key><string>/Users/JDKristenson/Desktop/10 BRIDGE/TEC/TEC dev-workbench/🟢 ACTIVE/hivefind-kam/tests/fixtures</string></dict>
-  <key>RunAtLoad</key><true/>
+  <key>RunAtLoad</key><false/>
   <key>StandardOutPath</key><string>/Users/JDKristenson/Library/Logs/kam/canary-claude-p-2.out.log</string>
   <key>StandardErrorPath</key><string>/Users/JDKristenson/Library/Logs/kam/canary-claude-p-2.err.log</string>
 </dict></plist>
