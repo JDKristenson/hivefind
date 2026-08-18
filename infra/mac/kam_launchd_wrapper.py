@@ -11,7 +11,12 @@ env = dict(os.environ)
 env["PATH"] = f"{HOME}/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 env["HOME"] = HOME
 env.setdefault("KAM_HOST", "mac")
-env.setdefault("KAM_SKIP_OP", "1")
+tok = os.path.join(HOME, ".config", "kam", "op-service-account.token")
+if os.path.isfile(tok):
+    with open(tok) as f:
+        env["OP_SERVICE_ACCOUNT_TOKEN"] = f.read().strip()
+else:
+    env.setdefault("KAM_SKIP_OP", "1")
 for k in ("ANTHROPIC_API_KEY", "CLAUDECODE", "CLAUDE_CODE_CHILD_SESSION", "CLAUDE_CODE_SESSION_ID"):
     env.pop(k, None)
 kam = f"{HOME}/.local/bin/kam"
