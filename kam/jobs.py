@@ -53,11 +53,16 @@ def expected_interval(cadence: str) -> timedelta:
     return timedelta(hours=1)
 
 
-def is_stale(job: Job, last: datetime | None, now: datetime | None = None) -> bool:
+def is_stale(job: Job, last: datetime | None, now: datetime | None = None, first_seen: datetime | None = None) -> bool:
+    """A job is stale when its last heartbeat is older than cadence + grace. A job that has never run is stale only
+    once it has existed (first_seen) longer than cadence + grace; before that it is simply not due yet."""
     now = now or datetime.now(UTC)
+    window = expected_interval(job.cadence) + timedelta(minutes=job.grace_minutes)
     if last is None:
-        return True
-    return now - last > expected_interval(job.cadence) + timedelta(minutes=job.grace_minutes)
+        if first_seen is None:
+            return True
+        return now - first_seen > window
+    return now - last > window
 
 
 def artifact_present(job: Job, since: datetime) -> bool | None:
@@ -73,11 +78,23 @@ def artifact_present(job: Job, since: datetime) -> bool | None:
     return None
 
 
-def health(jobs: list[Job], heartbeats: dict[str, datetime], now: datetime | None = None) -> list[dict[str, Any]]:
+def health(jobs: list[Job], heartbeats: dict[str, datetime], now: datetime | None = None,
+           first_seen: dict[str, datetime] | None = None) -> list[dict[str, Any]]:
     now = now or datetime.now(UTC)
+    first_seen = first_seen or {}
     rows = []
     for j in jobs:
         last = heartbeats.get(j.job_id)
-        stale = is_stale(j, last, now)
-        rows.append({"job_id": j.job_id, "host": j.host, "cadence": j.cadence, "last": last, "stale": stale})
+        stale = is_stale(j, last, now, first_seen.get(j.job_id))
+        not_due = last is None and not stale
+        rows.append({"job_id": j.job_id, "host": j.host, "cadence": j.cadence, "last": last, "stale": stale, "not_due": not_due})
     return rows
+
+
+def missed_event_due(job: Job, last_failed: datetime | None, now: datetime | None = None) -> bool:
+    """Write at most one 'missed' event per job per max(cadence+grace, 60 min)."""
+    now = now or datetime.now(UTC)
+    if last_failed is None:
+        return True
+    window = max(expected_interval(job.cadence) + timedelta(minutes=job.grace_minutes), timedelta(minutes=60))
+    return now - last_failed > window

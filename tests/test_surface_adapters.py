@@ -88,7 +88,9 @@ def test_jobs_staleness():
     assert expected_interval("every 5m") == timedelta(minutes=5)
     assert expected_interval("daily 06:15") == timedelta(days=1)
     assert expected_interval("weekly mon 07:30") == timedelta(days=7)
-    assert is_stale(j, None, now)
+    assert is_stale(j, None, now)                                              # unknown birth: stale
+    assert not is_stale(j, None, now, first_seen=now - timedelta(minutes=5))   # born 5 min ago: not due yet
+    assert is_stale(j, None, now, first_seen=now - timedelta(minutes=30))      # born 30 min ago, never ran: missing
     assert not is_stale(j, now - timedelta(minutes=12), now)
     assert is_stale(j, now - timedelta(minutes=16), now)
     rows = health([j], {}, now)

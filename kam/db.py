@@ -128,6 +128,20 @@ class DB:
         with self.conn() as c:
             return c.execute(sql, (since,)).fetchall()
 
+    def job_first_seen(self) -> dict[str, datetime]:
+        with self.conn() as c:
+            rows = c.execute("select job_id, first_seen from kam.jobs").fetchall()
+        return {r["job_id"]: r["first_seen"] for r in rows}
+
+    def latest_failed_by_job(self) -> dict[str, datetime]:
+        sql = """
+        select r.agent, max(e.at) as at from kam.run_events e join kam.runs r using (run_id)
+        where e.state = 'failed' and r.agent like 'job:%%' and e.summary like 'missed:%%' group by r.agent
+        """
+        with self.conn() as c:
+            rows = c.execute(sql).fetchall()
+        return {r["agent"].removeprefix("job:"): r["at"] for r in rows}
+
     def latest_heartbeats(self) -> dict[str, datetime]:
         sql = """
         select r.agent, max(e.at) as at from kam.run_events e join kam.runs r using (run_id)

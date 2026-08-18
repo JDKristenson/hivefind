@@ -95,14 +95,17 @@ def cmd_heartbeat(a: argparse.Namespace) -> int:
         db.sync_jobs([{"job_id": j.job_id, "host": j.host, "cadence": j.cadence, "grace_minutes": j.grace_minutes,
                        "expected_artifact": j.expected_artifact} for j in jobs])
         hb = db.latest_heartbeats()
-        rows = jobs_mod.health(jobs, hb)
-        missing = [r for r in rows if r["stale"]]
+        rows = jobs_mod.health(jobs, hb, first_seen=db.job_first_seen())
+        last_failed = db.latest_failed_by_job()
+        by_id = {j.job_id: j for j in jobs}
         for r in rows:
-            print(f"{'MISSING' if r['stale'] else 'ok':7} {r['job_id']} last={r['last']}")
-        for r in missing:
-            # one failed event per check that finds it missing; the Overnight health line is the primary signal
-            record_external(settings, mission="TEC-agentic-os", agent=f"job:{r['job_id']}", surface="kam", state="failed",
-                            summary=f"missed: {r['job_id']} (cadence {r['cadence']})", target_ref=None, host=settings.host)
+            tag = "MISSING" if r["stale"] else ("not-due" if r["not_due"] else "ok")
+            print(f"{tag:7} {r['job_id']} last={r['last']}")
+        for r in rows:
+            if r["stale"] and jobs_mod.missed_event_due(by_id[r["job_id"]], last_failed.get(r["job_id"])):
+                # at most one 'missed' event per job per hour; the Overnight health line is the primary signal
+                record_external(settings, mission="TEC-agentic-os", agent=f"job:{r['job_id']}", surface="kam", state="failed",
+                                summary=f"missed: {r['job_id']} (cadence {r['cadence']})", target_ref=None, host=settings.host)
         return 0
     rid = heartbeat(settings, a.job_id, settings.host, a.note or "")
     print(rid)
@@ -174,6 +177,10 @@ def cmd_rotate(a: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
+    import os
+    if os.environ.get("KAM_TRACE_AFTER"):  # diagnostics for hung scheduled jobs: dump the stack to stderr after N seconds and exit
+        import faulthandler
+        faulthandler.dump_traceback_later(int(os.environ["KAM_TRACE_AFTER"]), exit=True)
     ap = argparse.ArgumentParser(prog="kam", description="KAM: HiveFind execution substrate")
     sub = ap.add_subparsers(dest="cmd", required=True)
 

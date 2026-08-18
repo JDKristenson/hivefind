@@ -1,0 +1,14 @@
+{
+  "name": "kam_flag_probe",
+  "_note": "n8n Cloud workflow njU6kPuKZHn1iVjf (created 2026-08-17). Hourly + webhook /webhook/kam-flag-probe. Reads kam.flags; if not paused, writes a heartbeat via kam.log(). Credential: 'KAM Supabase kam_writer (ssl require)' (postgres, allowUnauthorizedCerts=true, ssl=require). Phase 3 replaces this stub with kam_manus_webhook.",
+  "nodes": [
+    {"id": "sched", "name": "Hourly", "type": "n8n-nodes-base.scheduleTrigger", "typeVersion": 1.2, "position": [0, 0], "parameters": {"rule": {"interval": [{"field": "hours", "hoursInterval": 1}]}}},
+    {"id": "hook", "name": "Probe webhook", "type": "n8n-nodes-base.webhook", "typeVersion": 2, "position": [0, 220], "parameters": {"path": "kam-flag-probe", "httpMethod": "POST", "responseMode": "lastNode"}},
+    {"id": "flag", "name": "Read kam.flags", "type": "n8n-nodes-base.postgres", "typeVersion": 2.6, "position": [260, 110], "parameters": {"operation": "executeQuery", "query": "select coalesce(bool_or(paused), false) as paused from kam.flags where name in ('global','job:kam-flag-probe-n8n');", "options": {}}, "credentials": {"postgres": {"name": "KAM Supabase kam_writer (ssl require)"}}},
+    {"id": "if", "name": "Paused?", "type": "n8n-nodes-base.if", "typeVersion": 2.2, "position": [520, 110], "parameters": {"conditions": {"options": {"caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2}, "conditions": [{"id": "c1", "leftValue": "={{ $json.paused }}", "rightValue": true, "operator": {"type": "boolean", "operation": "true", "singleValue": true}}], "combinator": "and"}, "options": {}}},
+    {"id": "noop", "name": "Paused: do nothing", "type": "n8n-nodes-base.noOp", "typeVersion": 1, "position": [780, 0], "parameters": {}},
+    {"id": "hb", "name": "Heartbeat via kam.log", "type": "n8n-nodes-base.postgres", "typeVersion": 2.6, "position": [780, 220], "parameters": {"operation": "executeQuery", "query": "select * from kam.log(gen_random_uuid()::text, 'heartbeat', 'n8n flag probe: not paused', null, null, null, null, '{\"mission\":\"TEC-agentic-os\",\"agent\":\"job:kam-flag-probe-n8n\",\"surface\":\"kam\",\"host\":\"vendor\",\"pool\":\"none\",\"task_class\":\"glue\"}'::jsonb);", "options": {}}, "credentials": {"postgres": {"name": "KAM Supabase kam_writer (ssl require)"}}}
+  ],
+  "connections": {"Hourly": {"main": [[{"node": "Read kam.flags", "type": "main", "index": 0}]]}, "Probe webhook": {"main": [[{"node": "Read kam.flags", "type": "main", "index": 0}]]}, "Read kam.flags": {"main": [[{"node": "Paused?", "type": "main", "index": 0}]]}, "Paused?": {"main": [[{"node": "Paused: do nothing", "type": "main", "index": 0}], [{"node": "Heartbeat via kam.log", "type": "main", "index": 0}]]}},
+  "settings": {"executionOrder": "v1", "timezone": "America/New_York"}
+}

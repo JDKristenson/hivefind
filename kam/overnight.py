@@ -27,7 +27,7 @@ def render(settings: Settings, now: datetime | None = None) -> str:
     head = db.chain_head()
     hb = db.latest_heartbeats()
     jobs = load_jobs()
-    hrows = health(jobs, hb, now)
+    hrows = health(jobs, hb, now, first_seen=db.job_first_seen())
 
     by_agent: dict[str, list] = {}
     staged: list = []
@@ -86,7 +86,7 @@ def render(settings: Settings, now: datetime | None = None) -> str:
     if not hrows:
         L.append("- no jobs in kam/jobs.yaml")
     for h in hrows:
-        flag = "MISSING" if h["stale"] else "ok"
+        flag = "MISSING" if h["stale"] else ("not-due" if h.get("not_due") else "ok")
         L.append(f"- {flag:7} {h['job_id']} ({h['host']}, {h['cadence']}) last {_fmt(h['last'])}")
     L.append("")
     return "\n".join(L)
