@@ -178,9 +178,12 @@ def cmd_rotate(a: argparse.Namespace) -> int:
 
 def main(argv: list[str] | None = None) -> int:
     import os
-    if os.environ.get("KAM_TRACE_AFTER"):  # diagnostics for hung scheduled jobs: dump the stack to stderr after N seconds and exit
+    if os.environ.get("KAM_TRACE_AFTER") and os.environ.get("KAM_TRACE_ARM") == "yes":
+        # diagnostics only, double-armed on purpose: dumps the stack to stderr after N seconds (30..600) and does NOT exit
         import faulthandler
-        faulthandler.dump_traceback_later(int(os.environ["KAM_TRACE_AFTER"]), exit=True)
+        secs = min(600, max(30, int(os.environ["KAM_TRACE_AFTER"])))
+        print(f"kam: KAM_TRACE_AFTER armed ({secs}s), diagnostic mode", file=sys.stderr)
+        faulthandler.dump_traceback_later(secs, exit=False)
     ap = argparse.ArgumentParser(prog="kam", description="KAM: HiveFind execution substrate")
     sub = ap.add_subparsers(dest="cmd", required=True)
 
